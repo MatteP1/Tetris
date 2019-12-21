@@ -11,6 +11,9 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+gradlew
+gradlew.bat
+
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
@@ -29,9 +32,6 @@ gen
 
 # Log file
 *.log
-
-# BlueJ files
-*.ctxt
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
