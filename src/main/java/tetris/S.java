@@ -1,17 +1,19 @@
+package tetris;
+
 import java.awt.Color;
 
 /**
- * Class representing the T-piece
+ * Class representing the tetris.S-piece
  * @author MatRusTy
  */
-public class T extends Tetrimino{
+public class S extends Tetrimino{
 
-    public T(PlayingField p){
-        super(Color.MAGENTA, p);
-        pieces.add(new GridElement(20,3, Color.MAGENTA, true));
-        pieces.add(new GridElement(20,4, Color.MAGENTA, true));
-        pieces.add(new GridElement(21,4, Color.MAGENTA, true));
-        pieces.add(new GridElement(20,5, Color.MAGENTA, true));
+    public S(PlayingField p){
+        super(Color.GREEN, p);
+        pieces.add(new GridElement(20,3, Color.GREEN, true));
+        pieces.add(new GridElement(20,4, Color.GREEN, true));
+        pieces.add(new GridElement(21,4, Color.GREEN, true));
+        pieces.add(new GridElement(21,5, Color.GREEN, true));
         zero = pieces.get(0);
         one = pieces.get(1);
         two = pieces.get(2);
@@ -29,8 +31,8 @@ public class T extends Tetrimino{
         twoy = two.y()-1;
         twox = two.x()+1;
 
-        threey = three.y()-1;
-        threex = three.x()-1;
+        threey = three.y()-2;
+        threex = three.x();
     }
 
     @Override
@@ -44,8 +46,8 @@ public class T extends Tetrimino{
         twoy = two.y()-1;
         twox = two.x()-1;
 
-        threey = three.y()+1;
-        threex = three.x()-1;
+        threey = three.y();
+        threex = three.x()-2;
     }
 
     @Override
@@ -59,8 +61,8 @@ public class T extends Tetrimino{
         twoy = two.y()+1;
         twox = two.x()-1;
 
-        threey = three.y()+1;
-        threex = three.x()+1;
+        threey = three.y()+2;
+        threex = three.x();
     }
 
     @Override
@@ -74,11 +76,11 @@ public class T extends Tetrimino{
         twoy = two.y()+1;
         twox = two.x()+1;
 
-        threey = three.y()-1;
-        threex = three.x()+1;
+        threey = three.y();
+        threex = three.x()+2;
     }
 
     public String toString(){
-        return "T-piece";
+        return "tetris.S-piece";
     }
 }

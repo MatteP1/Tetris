@@ -1,10 +1,12 @@
+package tetris;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
 
 /**
  * The game class containing most of the game handling logic, as well as keybindings.
- * The logic handling the movement of the tetriminos is defined in the abstract Tetrimino class and its sub-classes.
+ * The logic handling the movement of the tetriminos is defined in the abstract tetris.Tetrimino class and its sub-classes.
  *
  * @author MatRusTy
  */
@@ -28,30 +30,23 @@ public class Game implements KeyListener {
 
     private Tetrimino nextTetrimino;
 
-    /** Variable containing the current Tetrimino in the playingfield*/
+    /** Variable containing the current tetris.Tetrimino in the playingfield*/
     private Tetrimino currentTetrimino;
 
     /** Variable containing the tetrimino available for swapping */
     private Tetrimino savedTetrimino;
 
-    /** Variable telling if the swap feature has been used this round ("round" being the fall of the current Tetrimino) */
+    /** Variable telling if the swap feature has been used this round ("round" being the fall of the current tetris.Tetrimino) */
     private boolean changedCurrentTetriminoThisRound;
 
     /** Defines the amount of time that passes between each ingame timetick*/
     private int period;
 
-
-    // --------------------- MAIN METHOD ---------------------
-    public static void main(String[] args) {
-        Game game = new Game();
-        game.startGame();
-    }
-
     // --------------------- GAME CREATION AND TIME HANDLING ---------------------
     /**
      * Creates a new game object with all stats set to 0 and a new, empty playingfield.
      */
-    private Game() {
+    public Game() {
         timePassed = 0;
         score = 0;
         period = 1000*1;
@@ -64,7 +59,7 @@ public class Game implements KeyListener {
     /**
      * Initializes the game time and requests the first piece
      */
-    private void startGame(){
+    public void startGame(){
         paused = false;
         lost = false;
         nextTetrimino = generateRandomPiece();
@@ -265,7 +260,7 @@ public class Game implements KeyListener {
         } else {
             this.lost = true;
             game.stopGame();
-            System.out.println("Game Over!");
+            System.out.println("tetris.Game Over!");
             gui.gameLostScreen();
             gui.updatePlayfield();
         }

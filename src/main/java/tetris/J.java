@@ -1,7 +1,9 @@
+package tetris;
+
 import java.awt.Color;
 
 /**
- * Class representing the J-piece
+ * Class representing the tetris.J-piece
  * @author MatRusTy
  */
 public class J extends Tetrimino{
@@ -79,6 +81,6 @@ public class J extends Tetrimino{
     }
 
     public String toString(){
-        return "J-piece";
+        return "tetris.J-piece";
     }
 }

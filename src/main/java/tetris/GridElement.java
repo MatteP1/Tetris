@@ -1,3 +1,5 @@
+package tetris;
+
 import java.awt.Color;
 import javax.swing.*;
 
@@ -13,7 +15,7 @@ public class GridElement extends JPanel{
     private int x;
 
     /**
-     * Creates a new GridElement with the specified parameters.
+     * Creates a new tetris.GridElement with the specified parameters.
      * @param y The y coordinate of the gridElement.
      * @param x The x coordinate of the gridElement.
      * @param color The color of the gridElement.

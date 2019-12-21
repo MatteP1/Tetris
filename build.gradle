@@ -14,3 +14,12 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
+
+task playTetris(type: JavaExec) {
+    group 'Tetris'
+    description 'Run the Tetris Game'
+
+    main = 'tetris.Main'
+    classpath = sourceSets.main.runtimeClasspath
+}

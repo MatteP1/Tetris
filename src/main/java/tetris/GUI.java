@@ -1,3 +1,5 @@
+package tetris;
+
 import java.awt.*;
 import java.io.*;
 import java.util.*;
@@ -6,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileSystemView;
 
 /**
- * GUI class handling all the graphical components
+ * tetris.GUI class handling all the graphical components
  *
  * @author MatRusTy
  */
@@ -29,9 +31,9 @@ public class GUI {
     private int timePlayed, timePlayedAtPause;
 
 
-    // ------------------------------------------ GUI CREATION ------------------------------------------
+    // ------------------------------------------ tetris.GUI CREATION ------------------------------------------
     /**
-     * Creates a new GUI
+     * Creates a new tetris.GUI
      * @param game The main game object, that controls the game.
      * @param playfield The playingfield that is being played on.
      */
@@ -105,7 +107,7 @@ public class GUI {
         pauseResumeButton.setForeground(themeColor);
         settings.add(pauseResumeButton);
 
-        newGame = new JButton("New Game");
+        newGame = new JButton("New tetris.Game");
         newGame.addActionListener(e -> {
             timePlayed = 0;
             game.newGame();
@@ -124,7 +126,7 @@ public class GUI {
         themeButton.setForeground(themeColor);
         settings.add(themeButton);
 
-        exitButton = new JButton("Exit Game");
+        exitButton = new JButton("Exit tetris.Game");
         exitButton.addActionListener(e -> System.exit(0));
         exitButton.setBackground(Color.DARK_GRAY);
         exitButton.setForeground(themeColor);
@@ -134,7 +136,7 @@ public class GUI {
     }
 
     /**
-     * Creates the GUI for the entire playingfield.
+     * Creates the tetris.GUI for the entire playingfield.
      * @return A JPanel containing the the playingfield grid.
      */
     private JPanel createGameArea(){
@@ -154,7 +156,7 @@ public class GUI {
 
     @SuppressWarnings("Duplicates")
     /**
-     * Creates the side-part of the GUI containing the saved tetrimino, the stats, and the controls.
+     * Creates the side-part of the tetris.GUI containing the saved tetrimino, the stats, and the controls.
      */
     private void createSideInfo(){
         sideInfo = new JPanel();
@@ -241,7 +243,7 @@ public class GUI {
                         "Rotate Counterclockwise: Ctrl<br>" +
                         "Drop: Space<br>" +
                         "Hold piece: c<br>" +
-                        "Pause Game: Esc<br>" +
+                        "Pause tetris.Game: Esc<br>" +
                         "</p>" +
                         "</html>";
 
@@ -254,10 +256,10 @@ public class GUI {
     }
 
 
-    // ------------------------------------------ GUI UPDATING AND CHANGES ------------------------------------------
+    // ------------------------------------------ tetris.GUI UPDATING AND CHANGES ------------------------------------------
 
     /**
-     * Method reevaluating all changeable components in the GUI.
+     * Method reevaluating all changeable components in the tetris.GUI.
      * This method is called everytime a change happens in the playingfield, the current tetrimino, and the stats.
      */
     public void updatePlayfield(){

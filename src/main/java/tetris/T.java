@@ -1,17 +1,19 @@
+package tetris;
+
 import java.awt.Color;
 
 /**
- * Class representing the L-piece
+ * Class representing the tetris.T-piece
  * @author MatRusTy
  */
-public class L extends Tetrimino{
+public class T extends Tetrimino{
 
-    public L(PlayingField p){
-        super(Color.ORANGE, p);
-        pieces.add(new GridElement(20,3, Color.ORANGE, true));
-        pieces.add(new GridElement(20,4, Color.ORANGE, true));
-        pieces.add(new GridElement(20,5, Color.ORANGE, true));
-        pieces.add(new GridElement(21,5, Color.ORANGE, true));
+    public T(PlayingField p){
+        super(Color.MAGENTA, p);
+        pieces.add(new GridElement(20,3, Color.MAGENTA, true));
+        pieces.add(new GridElement(20,4, Color.MAGENTA, true));
+        pieces.add(new GridElement(21,4, Color.MAGENTA, true));
+        pieces.add(new GridElement(20,5, Color.MAGENTA, true));
         zero = pieces.get(0);
         one = pieces.get(1);
         two = pieces.get(2);
@@ -27,10 +29,10 @@ public class L extends Tetrimino{
         onex = one.x();
 
         twoy = two.y()-1;
-        twox = two.x()-1;
+        twox = two.x()+1;
 
-        threey = three.y()-2;
-        threex = three.x();
+        threey = three.y()-1;
+        threex = three.x()-1;
     }
 
     @Override
@@ -41,11 +43,11 @@ public class L extends Tetrimino{
         oney = one.y();
         onex = one.x();
 
-        twoy = two.y()+1;
+        twoy = two.y()-1;
         twox = two.x()-1;
 
-        threey = three.y();
-        threex = three.x()-2;
+        threey = three.y()+1;
+        threex = three.x()-1;
     }
 
     @Override
@@ -57,10 +59,10 @@ public class L extends Tetrimino{
         onex = one.x();
 
         twoy = two.y()+1;
-        twox = two.x()+1;
+        twox = two.x()-1;
 
-        threey = three.y()+2;
-        threex = three.x();
+        threey = three.y()+1;
+        threex = three.x()+1;
     }
 
     @Override
@@ -71,14 +73,14 @@ public class L extends Tetrimino{
         oney = one.y();
         onex = one.x();
 
-        twoy = two.y()-1;
+        twoy = two.y()+1;
         twox = two.x()+1;
 
-        threey = three.y();
-        threex = three.x()+2;
+        threey = three.y()-1;
+        threex = three.x()+1;
     }
 
     public String toString(){
-        return "L-piece";
+        return "tetris.T-piece";
     }
 }

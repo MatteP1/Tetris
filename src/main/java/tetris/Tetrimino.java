@@ -1,8 +1,10 @@
+package tetris;
+
 import java.awt.Color;
 import java.util.ArrayList;
 
 /**
- * This class represents the generic type: Tetrimino. Sub-classes are actual tetriminos.
+ * This class represents the generic type: tetris.Tetrimino. Sub-classes are actual tetriminos.
  * @author MatRusTy
  */
 public abstract class Tetrimino {

@@ -1,7 +1,9 @@
+package tetris;
+
 import java.awt.Color;
 
 /**
- * Class representing the I-piece
+ * Class representing the tetris.I-piece
  * @author MatRusTy
  */
 public class I extends Tetrimino{
@@ -79,6 +81,6 @@ public class I extends Tetrimino{
     }
 
     public String toString(){
-        return "I-piece";
+        return "tetris.I-piece";
     }
 }

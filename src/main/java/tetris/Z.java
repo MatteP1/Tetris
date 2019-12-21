@@ -1,7 +1,9 @@
+package tetris;
+
 import java.awt.Color;
 
 /**
- * Class representing the Z-piece
+ * Class representing the tetris.Z-piece
  * @author MatRusTy
  */
 public class Z extends Tetrimino{
@@ -79,6 +81,6 @@ public class Z extends Tetrimino{
     }
 
     public String toString(){
-        return "Z-piece";
+        return "tetris.Z-piece";
     }
 }

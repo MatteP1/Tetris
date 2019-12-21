@@ -1,17 +1,19 @@
+package tetris;
+
 import java.awt.Color;
 
 /**
- * Class representing the S-piece
+ * Class representing the tetris.L-piece
  * @author MatRusTy
  */
-public class S extends Tetrimino{
+public class L extends Tetrimino{
 
-    public S(PlayingField p){
-        super(Color.GREEN, p);
-        pieces.add(new GridElement(20,3, Color.GREEN, true));
-        pieces.add(new GridElement(20,4, Color.GREEN, true));
-        pieces.add(new GridElement(21,4, Color.GREEN, true));
-        pieces.add(new GridElement(21,5, Color.GREEN, true));
+    public L(PlayingField p){
+        super(Color.ORANGE, p);
+        pieces.add(new GridElement(20,3, Color.ORANGE, true));
+        pieces.add(new GridElement(20,4, Color.ORANGE, true));
+        pieces.add(new GridElement(20,5, Color.ORANGE, true));
+        pieces.add(new GridElement(21,5, Color.ORANGE, true));
         zero = pieces.get(0);
         one = pieces.get(1);
         two = pieces.get(2);
@@ -27,7 +29,7 @@ public class S extends Tetrimino{
         onex = one.x();
 
         twoy = two.y()-1;
-        twox = two.x()+1;
+        twox = two.x()-1;
 
         threey = three.y()-2;
         threex = three.x();
@@ -41,7 +43,7 @@ public class S extends Tetrimino{
         oney = one.y();
         onex = one.x();
 
-        twoy = two.y()-1;
+        twoy = two.y()+1;
         twox = two.x()-1;
 
         threey = three.y();
@@ -57,7 +59,7 @@ public class S extends Tetrimino{
         onex = one.x();
 
         twoy = two.y()+1;
-        twox = two.x()-1;
+        twox = two.x()+1;
 
         threey = three.y()+2;
         threex = three.x();
@@ -71,7 +73,7 @@ public class S extends Tetrimino{
         oney = one.y();
         onex = one.x();
 
-        twoy = two.y()+1;
+        twoy = two.y()-1;
         twox = two.x()+1;
 
         threey = three.y();
@@ -79,6 +81,6 @@ public class S extends Tetrimino{
     }
 
     public String toString(){
-        return "S-piece";
+        return "tetris.L-piece";
     }
 }
