@@ -1,5 +1,7 @@
 package tetris.tetrisGame;
 
+import tetris.util.TetriminoCalculator;
+
 import java.awt.*;
 import java.io.*;
 import java.util.*;
@@ -243,7 +245,7 @@ public class GUI {
                         "Rotate Counterclockwise: Ctrl<br>" +
                         "Drop: Space<br>" +
                         "Hold piece: c<br>" +
-                        "Pause tetris.Game: Esc<br>" +
+                        "Pause Game: Esc<br>" +
                         "</p>" +
                         "</html>";
 
@@ -256,10 +258,10 @@ public class GUI {
     }
 
 
-    // ------------------------------------------ tetris.GUI UPDATING AND CHANGES ------------------------------------------
+    // ------------------------------------------ GUI UPDATING AND CHANGES ------------------------------------------
 
     /**
-     * Method reevaluating all changeable components in the tetris.GUI.
+     * Method reevaluating all changeable components in the GUI.
      * This method is called everytime a change happens in the playingfield, the current tetrimino, and the stats.
      */
     public void updatePlayfield(){
@@ -280,27 +282,27 @@ public class GUI {
 
         //Display the next tetrimino
         if(game.getNextTetrimino() != null) {
-            for (GridElement g : game.getNextTetrimino().getPieces()) {
+            for (GridElement g : game.getNextTetrimino().getBlocks()) {
                 nextTiles[g.y() - 19][g.x() - 3].setBackground(g.getBackground());
             }
         }
 
         //Display the saved tetrimino
         if(game.getSavedTetrimino() != null) {
-            for (GridElement g : game.getSavedTetrimino().getPieces()) {
+            for (GridElement g : game.getSavedTetrimino().getBlocks()) {
                 savedTiles[g.y() - 19][g.x() - 3].setBackground(g.getBackground());
             }
         }
 
         //Display ghost pieces of current tetrimino
-        for(GridElement g : playfield.getCurrentTetrimino().calculateGhost()){
+        for(GridElement g : TetriminoCalculator.calculateGhost(playfield, playfield.getCurrentTetrimino())){
             if(g.y() < 20) {
                 tiles[g.y()][g.x()].setBackground(Color.DARK_GRAY);
             }
         }
 
         //Display current tetrimino
-        ArrayList<GridElement> pieces = playfield.getCurrentTetrimino().getPieces();
+        ArrayList<GridElement> pieces = playfield.getCurrentTetrimino().getBlocks();
         for(GridElement g : pieces){
             if(g.y()<20){
                 tiles[g.y()][g.x()].setBackground(g.getBackground());

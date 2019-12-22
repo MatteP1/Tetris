@@ -25,4 +25,10 @@ public interface Tetrimino {
      */
     int getSize();
 
+    /**
+     * Returns a string representation of the tetriminos type
+     * @return name of the tetrimino type
+     */
+    String getType();
+
 }

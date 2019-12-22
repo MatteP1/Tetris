@@ -1,5 +1,7 @@
 package tetris.tetrisGame;
 
+import tetris.Framework.Tetrimino;
+
 import java.util.*;
 import java.awt.Color;
 
@@ -8,7 +10,7 @@ import java.awt.Color;
  * @author MatRusTy
  */
 public class PlayingField {
-    private TetriminoOld currentTetrimino;
+    private Tetrimino currentTetrimino;
     private GridElement[][] grid;
     private Game game;
 
@@ -31,7 +33,7 @@ public class PlayingField {
     }
 
     public void insertCurrentPieceIntoGrid(){
-        ArrayList<GridElement> pieces = currentTetrimino.getPieces();
+        ArrayList<GridElement> pieces = currentTetrimino.getBlocks();
         for(GridElement g : pieces){
             g.makeOccupied();
             grid[g.y()][g.x()] = g;
@@ -96,7 +98,7 @@ public class PlayingField {
         }
     }
 
-    public TetriminoOld getCurrentTetrimino(){
+    public Tetrimino getCurrentTetrimino(){
         return currentTetrimino;
     }
 
@@ -105,14 +107,14 @@ public class PlayingField {
     }
 
     public int getRowDimensions() {
-        return 20;
+        return grid.length;
     }
 
     public int getColDimensions() {
-        return 10;
+        return grid[0].length;
     }
 
-    public void setCurrentTetrimino(TetriminoOld t){
+    public void setCurrentTetrimino(Tetrimino t){
         currentTetrimino = t;
     }
 }

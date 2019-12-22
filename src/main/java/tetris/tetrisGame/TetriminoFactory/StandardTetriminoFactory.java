@@ -30,69 +30,81 @@ public class StandardTetriminoFactory implements TetriminoFactory {
         }
     }
 
-    private Tetrimino createIPiece() {
+    @Override
+    public Tetrimino createNewInstanceOf(Tetrimino tetrimino) {
+        switch (tetrimino.getType()) {
+            case "I" : return createIPiece();
+            case "J" : return createJPiece();
+            case "L" : return createLPiece();
+            case "O" : return createOPiece();
+            case "S" : return createSPiece();
+            case "T" : return createTPiece();
+            case "Z" : return createZPiece();
+            default: return createIPiece();
+        }
+    }
+
+    public Tetrimino createIPiece() {
         ArrayList<GridElement> blocks = new ArrayList<>();
         blocks.add(new GridElement(20,3, Color.CYAN, true));
         blocks.add(new GridElement(20,4, Color.CYAN, true));
         blocks.add(new GridElement(20,5, Color.CYAN, true));
         blocks.add(new GridElement(20,6, Color.CYAN, true));
-        return new StandardTetrimino(blocks, Color.CYAN, 4);
+        return new StandardTetrimino("I", blocks, Color.CYAN, 4);
     }
 
-    private Tetrimino createJPiece() {
+    public Tetrimino createJPiece() {
         ArrayList<GridElement> blocks = new ArrayList<>();
         blocks.add(new GridElement(21,3, Color.BLUE, true));
         blocks.add(new GridElement(20,3, Color.BLUE, true));
         blocks.add(new GridElement(20,4, Color.BLUE, true));
         blocks.add(new GridElement(20,5, Color.BLUE, true));
-        return new StandardTetrimino(blocks, Color.CYAN, 4);
+        return new StandardTetrimino("J", blocks, Color.CYAN, 4);
     }
 
-    private Tetrimino createLPiece() {
+    public Tetrimino createLPiece() {
         ArrayList<GridElement> blocks = new ArrayList<>();
         blocks.add(new GridElement(20,3, Color.ORANGE, true));
         blocks.add(new GridElement(20,4, Color.ORANGE, true));
         blocks.add(new GridElement(20,5, Color.ORANGE, true));
         blocks.add(new GridElement(21,5, Color.ORANGE, true));
-        return new StandardTetrimino(blocks, Color.CYAN, 4);
+        return new StandardTetrimino("L", blocks, Color.CYAN, 4);
     }
 
-    private Tetrimino createOPiece() {
+    public Tetrimino createOPiece() {
         ArrayList<GridElement> blocks = new ArrayList<>();
         blocks.add(new GridElement(20,4, Color.YELLOW, true));
         blocks.add(new GridElement(21,4, Color.YELLOW, true));
         blocks.add(new GridElement(20,5, Color.YELLOW, true));
         blocks.add(new GridElement(21,5, Color.YELLOW, true));
-        return new StandardTetrimino(blocks, Color.CYAN, 4);
+        return new StandardTetrimino("O", blocks, Color.CYAN, 4);
     }
 
-    private Tetrimino createSPiece() {
+    public Tetrimino createSPiece() {
         ArrayList<GridElement> blocks = new ArrayList<>();
         blocks.add(new GridElement(20,3, Color.GREEN, true));
         blocks.add(new GridElement(20,4, Color.GREEN, true));
         blocks.add(new GridElement(21,4, Color.GREEN, true));
         blocks.add(new GridElement(21,5, Color.GREEN, true));
-        return new StandardTetrimino(blocks, Color.CYAN, 4);
+        return new StandardTetrimino("S", blocks, Color.CYAN, 4);
     }
 
-    private Tetrimino createTPiece() {
+    public Tetrimino createTPiece() {
         ArrayList<GridElement> blocks = new ArrayList<>();
         blocks.add(new GridElement(20,3, Color.MAGENTA, true));
         blocks.add(new GridElement(20,4, Color.MAGENTA, true));
         blocks.add(new GridElement(21,4, Color.MAGENTA, true));
         blocks.add(new GridElement(20,5, Color.MAGENTA, true));
-        return new StandardTetrimino(blocks, Color.CYAN, 4);
+        return new StandardTetrimino("T", blocks, Color.CYAN, 4);
     }
 
-    private Tetrimino createZPiece() {
+    public Tetrimino createZPiece() {
         ArrayList<GridElement> blocks = new ArrayList<>();
         blocks.add(new GridElement(21,3, Color.RED, true));
         blocks.add(new GridElement(21,4, Color.RED, true));
         blocks.add(new GridElement(20,4, Color.RED, true));
         blocks.add(new GridElement(20,5, Color.RED, true));
-        return new StandardTetrimino(blocks, Color.CYAN, 4);
+        return new StandardTetrimino("Z", blocks, Color.CYAN, 4);
     }
-
-
 
 }
