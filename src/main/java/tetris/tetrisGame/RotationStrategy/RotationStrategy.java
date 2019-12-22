@@ -1,10 +1,9 @@
-package tetrisGame.RotationStrategy;
+package tetris.tetrisGame.RotationStrategy;
 
-import tetris.Position;
-import tetris.Tetrimino;
-import tetrisGame.GridElement;
+import tetris.Framework.Position;
+import tetris.Framework.Tetrimino;
+import tetris.tetrisGame.GridElement;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public interface RotationStrategy {

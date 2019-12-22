@@ -1,13 +1,13 @@
-package tetrisGame;
+package tetris.tetrisGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
 
 /**
- * This class represents the generic type: tetris.Tetrimino. Sub-classes are actual tetriminos.
+ * This class represents the generic type: tetris.Framework.Tetrimino. Sub-classes are actual tetriminos.
  * @author MatRusTy
  */
-public abstract class Tetrimino {
+public abstract class TetriminoOld {
 
     // --------------------- FIELD VARIABLES ---------------------
     private int orientation;
@@ -42,7 +42,7 @@ public abstract class Tetrimino {
      * @param c Color of the tetrimino
      * @param p The playingfield on which the tetrimino will be played.
      */
-    public Tetrimino(Color c, PlayingField p){
+    public TetriminoOld(Color c, PlayingField p){
         orientation = 0;
         color = c;
         pieces = new ArrayList<>();

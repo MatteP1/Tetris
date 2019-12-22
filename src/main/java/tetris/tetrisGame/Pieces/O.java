@@ -1,8 +1,8 @@
-package tetrisGame.Pieces;
+package tetris.tetrisGame.Pieces;
 
-import tetrisGame.GridElement;
-import tetrisGame.PlayingField;
-import tetrisGame.Tetrimino;
+import tetris.tetrisGame.GridElement;
+import tetris.tetrisGame.PlayingField;
+import tetris.tetrisGame.TetriminoOld;
 
 import java.awt.Color;
 
@@ -10,7 +10,7 @@ import java.awt.Color;
  * Class representing the tetris.O-piece
  * @author MatRusTy
  */
-public class O extends Tetrimino {
+public class O extends TetriminoOld {
 
     public O(PlayingField p){
         super(Color.YELLOW, p);

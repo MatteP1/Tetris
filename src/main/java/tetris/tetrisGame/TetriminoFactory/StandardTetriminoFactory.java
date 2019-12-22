@@ -1,10 +1,8 @@
-package tetrisGame.TetriminoFactory;
+package tetris.tetrisGame.TetriminoFactory;
 
-import tetris.Position;
-import tetris.Tetrimino;
-import tetrisGame.GridElement;
-import tetrisGame.Pieces.*;
-import tetrisGame.StandardTetrimino;
+import tetris.Framework.Tetrimino;
+import tetris.tetrisGame.GridElement;
+import tetris.tetrisGame.StandardTetrimino;
 
 import java.awt.*;
 import java.util.ArrayList;

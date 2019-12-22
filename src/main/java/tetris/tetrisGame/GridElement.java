@@ -1,4 +1,4 @@
-package tetrisGame;
+package tetris.tetrisGame;
 
 import java.awt.Color;
 import javax.swing.*;

@@ -1,6 +1,6 @@
-package tetris;
+package tetris.Framework;
 
-import tetrisGame.GridElement;
+import tetris.tetrisGame.GridElement;
 
 import java.awt.*;
 import java.util.ArrayList;

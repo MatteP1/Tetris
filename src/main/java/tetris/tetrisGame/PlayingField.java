@@ -1,4 +1,4 @@
-package tetrisGame;
+package tetris.tetrisGame;
 
 import java.util.*;
 import java.awt.Color;
@@ -8,7 +8,7 @@ import java.awt.Color;
  * @author MatRusTy
  */
 public class PlayingField {
-    private Tetrimino currentTetrimino;
+    private TetriminoOld currentTetrimino;
     private GridElement[][] grid;
     private Game game;
 
@@ -96,15 +96,23 @@ public class PlayingField {
         }
     }
 
-    public Tetrimino getCurrentTetrimino(){
+    public TetriminoOld getCurrentTetrimino(){
         return currentTetrimino;
     }
 
-    public GridElement[][] getGrid(){
+    public GridElement[][] getGrid() {
         return grid;
     }
 
-    public void setCurrentTetrimino(Tetrimino t){
+    public int getRowDimensions() {
+        return 20;
+    }
+
+    public int getColDimensions() {
+        return 10;
+    }
+
+    public void setCurrentTetrimino(TetriminoOld t){
         currentTetrimino = t;
     }
 }

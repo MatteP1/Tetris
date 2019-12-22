@@ -1,4 +1,4 @@
-package tetris;
+package tetris.Framework;
 
 public class Position {
     int row;

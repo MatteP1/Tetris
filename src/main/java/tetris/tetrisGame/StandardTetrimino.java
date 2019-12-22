@@ -1,6 +1,6 @@
-package tetrisGame;
+package tetris.tetrisGame;
 
-import tetris.Tetrimino;
+import tetris.Framework.Tetrimino;
 
 import java.awt.*;
 import java.util.ArrayList;

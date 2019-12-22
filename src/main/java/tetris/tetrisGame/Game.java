@@ -1,6 +1,12 @@
-package tetrisGame;
+package tetris.tetrisGame;
 
-import tetrisGame.Pieces.*;
+import tetris.tetrisGame.Pieces.*;
+import tetris.tetrisGame.RotationStrategy.RotationStrategy;
+import tetris.tetrisGame.RotationStrategy.StandardRotationStrategy;
+import tetris.tetrisGame.TetriminoFactory.StandardTetriminoFactory;
+import tetris.tetrisGame.TetriminoFactory.TetriminoFactory;
+import tetris.tetrisGame.ValidationStrategy.StandardValidationStrategy;
+import tetris.tetrisGame.ValidationStrategy.ValidationStrategy;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -8,7 +14,7 @@ import java.util.*;
 
 /**
  * The game class containing most of the game handling logic, as well as keybindings.
- * The logic handling the movement of the tetriminos is defined in the abstract tetris.Tetrimino class and its sub-classes.
+ * The logic handling the movement of the tetriminos is defined in the abstract tetris.Framework.Tetrimino class and its sub-classes.
  *
  * @author MatRusTy
  */
@@ -30,19 +36,24 @@ public class Game implements KeyListener {
     /** The grid that the current tetrimino has to be placed in*/
     private PlayingField playfield;
 
-    private Tetrimino nextTetrimino;
+    private TetriminoOld nextTetrimino;
 
-    /** Variable containing the current tetris.Tetrimino in the playingfield*/
-    private Tetrimino currentTetrimino;
+    /** Variable containing the current tetris.Framework.Tetrimino in the playingfield*/
+    private TetriminoOld currentTetrimino;
 
     /** Variable containing the tetrimino available for swapping */
-    private Tetrimino savedTetrimino;
+    private TetriminoOld savedTetrimino;
 
-    /** Variable telling if the swap feature has been used this round ("round" being the fall of the current tetris.Tetrimino) */
+    /** Variable telling if the swap feature has been used this round ("round" being the fall of the current tetris.Framework.Tetrimino) */
     private boolean changedCurrentTetriminoThisRound;
 
     /** Defines the amount of time that passes between each ingame timetick*/
     private int period;
+
+    private RotationStrategy rotationStrategy;
+    private TetriminoFactory tetriminoFactory;
+    private ValidationStrategy validationStrategy;
+
 
     // --------------------- GAME CREATION AND TIME HANDLING ---------------------
     /**
@@ -55,6 +66,9 @@ public class Game implements KeyListener {
         playfield = new PlayingField(this);
         random = new Random();
         this.game = this;
+        rotationStrategy = new StandardRotationStrategy();
+        tetriminoFactory = new StandardTetriminoFactory();
+        validationStrategy = new StandardValidationStrategy();
         gui = new GUI(game, playfield);
     }
 
@@ -153,9 +167,9 @@ public class Game implements KeyListener {
         playfield.setCurrentTetrimino(currentTetrimino);
     }
 
-    private Tetrimino generateRandomPiece(){
+    private TetriminoOld generateRandomPiece(){
         int nextPiece = game.getRandom().nextInt(7)+1;
-        Tetrimino nextTetrimino;
+        TetriminoOld nextTetrimino;
         switch (nextPiece){
             case 1 : nextTetrimino = new I(playfield); break;
             case 2 : nextTetrimino = new J(playfield); break;
@@ -182,7 +196,7 @@ public class Game implements KeyListener {
                 savedTetrimino = createNewInstanceOf(savedTetrimino);
                 nextPiece();
             } else {
-                Tetrimino temp = savedTetrimino;
+                TetriminoOld temp = savedTetrimino;
                 savedTetrimino = currentTetrimino;
                 savedTetrimino = createNewInstanceOf(savedTetrimino);
                 currentTetrimino = temp;
@@ -200,7 +214,7 @@ public class Game implements KeyListener {
      * @param t The tetrimino of which a new instance of should be created.
      * @return The newly created instance.
      */
-    private Tetrimino createNewInstanceOf(Tetrimino t) {
+    private TetriminoOld createNewInstanceOf(TetriminoOld t) {
         if(t instanceof I) {
             return new I(playfield);
         } else if(t instanceof J){
@@ -402,10 +416,10 @@ public class Game implements KeyListener {
     public boolean isPaused(){
         return paused;
     }
-    public Tetrimino getSavedTetrimino(){
+    public TetriminoOld getSavedTetrimino(){
         return savedTetrimino;
     }
-    public Tetrimino getNextTetrimino(){
+    public TetriminoOld getNextTetrimino(){
         return nextTetrimino;
     }
     public boolean hasLost(){
