@@ -1,4 +1,6 @@
-package tetris;
+package tetrisGame;
+
+import tetrisGame.Pieces.*;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

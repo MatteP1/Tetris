@@ -1,4 +1,4 @@
-package tetris;
+package tetrisGame;
 
 public class Main {
     // --------------------- MAIN METHOD ---------------------

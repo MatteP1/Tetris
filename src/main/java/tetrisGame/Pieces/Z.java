@@ -1,4 +1,8 @@
-package tetris;
+package tetrisGame.Pieces;
+
+import tetrisGame.GridElement;
+import tetrisGame.PlayingField;
+import tetrisGame.Tetrimino;
 
 import java.awt.Color;
 
@@ -6,7 +10,7 @@ import java.awt.Color;
  * Class representing the tetris.Z-piece
  * @author MatRusTy
  */
-public class Z extends Tetrimino{
+public class Z extends Tetrimino {
 
     public Z(PlayingField p){
         super(Color.RED, p);
@@ -21,7 +25,7 @@ public class Z extends Tetrimino{
     }
 
     @Override
-    protected void rotateClockwiseCase0() {
+    public void rotateClockwiseCase0() {
         zeroy = zero.y();
         zerox = zero.x()+2;
 
@@ -36,7 +40,7 @@ public class Z extends Tetrimino{
     }
 
     @Override
-    protected void rotateClockwiseCase1() {
+    public void rotateClockwiseCase1() {
         zeroy = zero.y()-2;
         zerox = zero.x();
 
@@ -51,7 +55,7 @@ public class Z extends Tetrimino{
     }
 
     @Override
-    protected void rotateClockwiseCase2() {
+    public void rotateClockwiseCase2() {
         zeroy = zero.y();
         zerox = zero.x()-2;
 
@@ -66,7 +70,7 @@ public class Z extends Tetrimino{
     }
 
     @Override
-    protected void rotateClockwiseCase3() {
+    public void rotateClockwiseCase3() {
         zeroy = zero.y()+2;
         zerox = zero.x();
 
