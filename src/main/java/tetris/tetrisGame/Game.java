@@ -1,10 +1,11 @@
 package tetris.tetrisGame;
 
+import tetris.Framework.MovementType;
 import tetris.Framework.Position;
 import tetris.Framework.Tetrimino;
 import tetris.tetrisGame.MovementStrategy.MovementStrategy;
 import tetris.tetrisGame.MovementStrategy.StandardMovementStrategy;
-import tetris.tetrisGame.Pieces.*;
+import tetris.tetrisGame.RotationStrategy.IndividualPieceRotationStrategy;
 import tetris.tetrisGame.RotationStrategy.RotationStrategy;
 import tetris.tetrisGame.RotationStrategy.StandardRotationStrategy;
 import tetris.tetrisGame.TetriminoFactory.StandardTetriminoFactory;
@@ -71,7 +72,7 @@ public class Game implements KeyListener {
         playfield = new PlayingField(this);
         random = new Random();
         this.game = this;
-        rotationStrategy = new StandardRotationStrategy();
+        rotationStrategy = new IndividualPieceRotationStrategy();
         movementStrategy = new StandardMovementStrategy();
         tetriminoFactory = new StandardTetriminoFactory();
         validationStrategy = new StandardValidationStrategy();
@@ -144,9 +145,9 @@ public class Game implements KeyListener {
             @Override
             public void run() {
                 step();
-                System.out.println(timePassed);
+                System.out.println("Time passed: " + timePassed);
                 for(GridElement g : currentTetrimino.getBlocks()){
-                    System.out.print("(" + g.y() +", "+  g.x() + ") ");
+                    System.out.print("(" + g.getRow() +", "+  g.getCol() + ") ");
                 }
                 System.out.println();
             }
@@ -209,7 +210,7 @@ public class Game implements KeyListener {
         Map<GridElement, Position> suggestedMove = movementStrategy.moveDown(currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful){
-            moveCurrentTetrimino(suggestedMove);
+            moveCurrentTetrimino(suggestedMove, MovementType.MOVE_DOWN);
             moveDownTries = 0;
         } else {
             insertIntoGrid();
@@ -236,7 +237,7 @@ public class Game implements KeyListener {
             for(GridElement[] G : playfield.getGrid()){
                 for(GridElement g : G){
                     if(g.isOccupied()){
-                        System.out.print("(" + g.y() +", "+  g.x() + ") ");
+                        System.out.print("(" + g.getRow() +", "+  g.getCol() + ") ");
                     }
                 }
             }
@@ -245,7 +246,7 @@ public class Game implements KeyListener {
         } else {
             this.lost = true;
             game.stopGame();
-            System.out.println("tetris.Game Over!");
+            System.out.println("Game Over!");
             gui.gameLostScreen();
             gui.updatePlayfield();
         }
@@ -258,7 +259,7 @@ public class Game implements KeyListener {
         Map<GridElement, Position> suggestedMove = movementStrategy.drop(playfield, currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful) {
-            moveCurrentTetrimino(suggestedMove);
+            moveCurrentTetrimino(suggestedMove, MovementType.DROP);
             insertIntoGrid();
         }
         gui.updatePlayfield();
@@ -272,7 +273,7 @@ public class Game implements KeyListener {
         Map<GridElement, Position> suggestedMove = movementStrategy.moveDown(currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful) {
-            moveCurrentTetrimino(suggestedMove);
+            moveCurrentTetrimino(suggestedMove, MovementType.MOVE_DOWN);
         }
         if(!successful){
             moveDownTries++;
@@ -291,7 +292,7 @@ public class Game implements KeyListener {
         Map<GridElement, Position> suggestedMove = movementStrategy.moveLeft(currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful) {
-            moveCurrentTetrimino(suggestedMove);
+            moveCurrentTetrimino(suggestedMove, MovementType.MOVE_LEFT);
         }
     }
 
@@ -302,39 +303,34 @@ public class Game implements KeyListener {
         Map<GridElement, Position> suggestedMove = movementStrategy.moveRight(currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful) {
-            moveCurrentTetrimino(suggestedMove);
+            moveCurrentTetrimino(suggestedMove, MovementType.MOVE_RIGHT);
         }
     }
 
     /**
      * Rotate the current tetrimino in the clockwise direction
      */
-    private void rotateClockWise(){
+    private void rotateClockWise() {
         Map<GridElement, Position> suggestedMove = rotationStrategy.rotateClockWise(currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful) {
-            moveCurrentTetrimino(suggestedMove);
+            moveCurrentTetrimino(suggestedMove, MovementType.ROTATE_CW);
         }
     }
 
     /**
      * Rotate the current tetrimino in the counter-clockwise direction
      */
-    private void rotateCounterClockWise(){
+    private void rotateCounterClockWise() {
         Map<GridElement, Position> suggestedMove = rotationStrategy.rotateCounterClockWise(currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful) {
-            moveCurrentTetrimino(suggestedMove);
+            moveCurrentTetrimino(suggestedMove, MovementType.ROTATE_CCW);
         }
     }
 
-    private void moveCurrentTetrimino(Map<GridElement, Position> suggestMove) {
-        Set<GridElement> blocks = suggestMove.keySet();
-        for (GridElement block : blocks) {
-            Position newPosition = suggestMove.get(block);
-            block.setX(newPosition.getCol());
-            block.setY(newPosition.getRow());
-        }
+    private void moveCurrentTetrimino(Map<GridElement, Position> wantedMove, MovementType movementType) {
+        currentTetrimino.applyMovement(wantedMove, movementType);
         gui.updatePlayfield();
     }
 

@@ -11,20 +11,20 @@ public class GridElement extends JPanel{
 
     // --------------------- FIELD VARIABLES ---------------------
     private boolean occupied;
-    private int y;
-    private int x;
+    private int row;
+    private int col;
 
     /**
-     * Creates a new tetris.GridElement with the specified parameters.
-     * @param y The y coordinate of the gridElement.
-     * @param x The x coordinate of the gridElement.
+     * Creates a new GridElement with the specified parameters.
+     * @param row The y coordinate of the gridElement.
+     * @param col The x coordinate of the gridElement.
      * @param color The color of the gridElement.
      * @param o Is the gridElement occupied (can a tetrimino be in this spot).
      */
-    public GridElement(int y, int x, Color color, boolean o){
+    public GridElement(int row, int col, Color color, boolean o){
         occupied = o;
-        this.x = x;
-        this.y = y;
+        this.col = col;
+        this.row = row;
         setBackground(color);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
@@ -33,22 +33,22 @@ public class GridElement extends JPanel{
     public boolean isOccupied() {
         return occupied;
     }
-    public int x(){
-        return x;
+    public int getCol(){
+        return col;
     }
-    public int y(){
-        return y;
+    public int getRow(){
+        return row;
     }
-    public void setX(int x){
-        this.x = x;
+    public void setCol(int col){
+        this.col = col;
     }
-    public void setY(int y){
-        this.y = y;
+    public void setRow(int row){
+        this.row = row;
     }
     public void makeOccupied(){
         occupied = true;
     }
     public void setOccupied(boolean b){
-        occupied =b;
+        occupied = b;
     }
 }

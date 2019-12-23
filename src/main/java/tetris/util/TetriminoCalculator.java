@@ -19,12 +19,12 @@ public class TetriminoCalculator {
         ArrayList<GridElement> blocks = t.getBlocks();
         int closestToOccupiedSlot = Integer.MAX_VALUE;
         for(GridElement g : blocks){
-            closestToOccupiedSlot = Math.min(g.y(), closestToOccupiedSlot);
+            closestToOccupiedSlot = Math.min(g.getRow(), closestToOccupiedSlot);
         }
 
         for(GridElement g : blocks){
-            for (int i = 1; i <= g.y(); i++) {
-                if (grid[g.y()-i][g.x()].isOccupied()){
+            for (int i = 1; i <= g.getRow(); i++) {
+                if (grid[g.getRow()-i][g.getCol()].isOccupied()){
                     closestToOccupiedSlot = Math.min(i-1, closestToOccupiedSlot);
                 }
             }
@@ -33,7 +33,7 @@ public class TetriminoCalculator {
         ArrayList<GridElement> ghostBlocks = new ArrayList<>(4);
 
         for(GridElement g : blocks){
-            ghostBlocks.add(grid[g.y()-closestToOccupiedSlot][g.x()]);
+            ghostBlocks.add(grid[g.getRow()-closestToOccupiedSlot][g.getCol()]);
         }
 
         return ghostBlocks;
@@ -44,8 +44,8 @@ public class TetriminoCalculator {
         ArrayList<GridElement> blocks = tetrimino.getBlocks();
         int startX = Integer.MAX_VALUE;
         for (GridElement g : blocks) {
-            if(g.x() < startX) {
-                startX = g.x();
+            if(g.getCol() < startX) {
+                startX = g.getCol();
             }
         }
         return startX;
@@ -56,8 +56,8 @@ public class TetriminoCalculator {
         ArrayList<GridElement> blocks = tetrimino.getBlocks();
         int startY = Integer.MAX_VALUE;
         for (GridElement g : blocks) {
-            if(g.y() < startY) {
-                startY = g.y();
+            if(g.getRow() < startY) {
+                startY = g.getRow();
             }
         }
         return startY;
@@ -66,29 +66,28 @@ public class TetriminoCalculator {
 
     public static int findEndX(Tetrimino tetrimino) {
         ArrayList<GridElement> blocks = tetrimino.getBlocks();
-        int startX = 0;
+        int endX = 0;
         for (GridElement g : blocks) {
-            if(g.x() > startX) {
-                startX = g.x();
+            if(g.getCol() > endX) {
+                endX = g.getCol();
             }
         }
-        return startX;
+        return endX;
     }
 
     public static int findEndY(Tetrimino tetrimino) {
         ArrayList<GridElement> blocks = tetrimino.getBlocks();
-        int startY = 0;
+        int endY = 0;
         for (GridElement g : blocks) {
-            if(g.y() > startY) {
-                startY = g.y();
+            if(g.getRow() > endY) {
+                endY = g.getRow();
             }
         }
-        return startY;
+        return endY;
     }
 
     public static int findEnclosingRectangleSize(Tetrimino tetrimino) {
         return Math.max(findEndX(tetrimino) - findStartX(tetrimino), findEndY(tetrimino) - findStartY(tetrimino)) + 1;
     }
-
 
 }

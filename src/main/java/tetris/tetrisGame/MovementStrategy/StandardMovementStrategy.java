@@ -16,7 +16,7 @@ public class StandardMovementStrategy implements MovementStrategy {
         Map<GridElement, Position> result = new HashMap<>();
         ArrayList<GridElement> blocks = tetrimino.getBlocks();
         for (GridElement block : blocks) {
-            result.put(block, new Position(block.y()-1, block.x()));
+            result.put(block, new Position(block.getRow()-1, block.getCol()));
         }
         return result;
     }
@@ -27,7 +27,7 @@ public class StandardMovementStrategy implements MovementStrategy {
         ArrayList<GridElement> blocks = tetrimino.getBlocks();
         ArrayList<GridElement> ghostBlocks = TetriminoCalculator.calculateGhost(p, tetrimino);
         for (int block = 0; block < blocks.size(); block++) {
-            result.put(blocks.get(block), new Position(ghostBlocks.get(block).y(), ghostBlocks.get(block).x()));
+            result.put(blocks.get(block), new Position(ghostBlocks.get(block).getRow(), ghostBlocks.get(block).getCol()));
         }
         return result;
     }
@@ -37,7 +37,7 @@ public class StandardMovementStrategy implements MovementStrategy {
         Map<GridElement, Position> result = new HashMap<>();
         ArrayList<GridElement> blocks = tetrimino.getBlocks();
         for (GridElement block : blocks) {
-            result.put(block, new Position(block.y(), block.x()-1));
+            result.put(block, new Position(block.getRow(), block.getCol()-1));
         }
         return result;
     }
@@ -47,7 +47,7 @@ public class StandardMovementStrategy implements MovementStrategy {
         Map<GridElement, Position> result = new HashMap<>();
         ArrayList<GridElement> blocks = tetrimino.getBlocks();
         for (GridElement block : blocks) {
-            result.put(block, new Position(block.y(), block.x()+1));
+            result.put(block, new Position(block.getRow(), block.getCol()+1));
         }
         return result;
     }

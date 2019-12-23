@@ -109,7 +109,7 @@ public class GUI {
         pauseResumeButton.setForeground(themeColor);
         settings.add(pauseResumeButton);
 
-        newGame = new JButton("New tetris.Game");
+        newGame = new JButton("New Game");
         newGame.addActionListener(e -> {
             timePlayed = 0;
             game.newGame();
@@ -128,7 +128,7 @@ public class GUI {
         themeButton.setForeground(themeColor);
         settings.add(themeButton);
 
-        exitButton = new JButton("Exit tetris.Game");
+        exitButton = new JButton("Exit Game");
         exitButton.addActionListener(e -> System.exit(0));
         exitButton.setBackground(Color.DARK_GRAY);
         exitButton.setForeground(themeColor);
@@ -283,29 +283,29 @@ public class GUI {
         //Display the next tetrimino
         if(game.getNextTetrimino() != null) {
             for (GridElement g : game.getNextTetrimino().getBlocks()) {
-                nextTiles[g.y() - 19][g.x() - 3].setBackground(g.getBackground());
+                nextTiles[g.getRow() - 19][g.getCol() - 3].setBackground(g.getBackground());
             }
         }
 
         //Display the saved tetrimino
         if(game.getSavedTetrimino() != null) {
             for (GridElement g : game.getSavedTetrimino().getBlocks()) {
-                savedTiles[g.y() - 19][g.x() - 3].setBackground(g.getBackground());
+                savedTiles[g.getRow() - 19][g.getCol() - 3].setBackground(g.getBackground());
             }
         }
 
         //Display ghost pieces of current tetrimino
         for(GridElement g : TetriminoCalculator.calculateGhost(playfield, playfield.getCurrentTetrimino())){
-            if(g.y() < 20) {
-                tiles[g.y()][g.x()].setBackground(Color.DARK_GRAY);
+            if(g.getRow() < 20) {
+                tiles[g.getRow()][g.getCol()].setBackground(Color.DARK_GRAY);
             }
         }
 
         //Display current tetrimino
         ArrayList<GridElement> pieces = playfield.getCurrentTetrimino().getBlocks();
         for(GridElement g : pieces){
-            if(g.y()<20){
-                tiles[g.y()][g.x()].setBackground(g.getBackground());
+            if(g.getRow()<20){
+                tiles[g.getRow()][g.getCol()].setBackground(g.getBackground());
             }
         }
 

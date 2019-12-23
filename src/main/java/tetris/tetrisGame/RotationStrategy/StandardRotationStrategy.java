@@ -21,16 +21,19 @@ public class StandardRotationStrategy implements RotationStrategy{
         int startX = TetriminoCalculator.findStartX(tetrimino);
         int startY = TetriminoCalculator.findStartY(tetrimino);
 
-        // (n, m) -> (m, s - n + 1)
+        // (n, m) -> (s - m + 1, n)
         for (GridElement g : blocks) {
-            int row = g.y() - startY;
-            int col = g.x() - startX;
+            int row = g.getRow() - startY + 1;
+            int col = g.getCol() - startX + 1;
+            System.out.println("Row " + row + ". Col " + col);
 
-            int newRow = col;
-            int newCol = Math.abs(size - row) + 1;
+            int newRow = size - col + 1;
+            int newCol = row;
+            System.out.println("Row " + newRow + ". Col " + newCol);
 
-            int newRowPos = newRow + startY;
-            int newColPos = newCol + startX;
+            int newRowPos = newRow + startY - 1;
+            int newColPos = newCol + startX - 1;
+            System.out.println("RowAc " + newRowPos + ". ColAC " + newColPos);
 
             result.put(g, new Position(newRowPos, newColPos));
         }
@@ -45,16 +48,16 @@ public class StandardRotationStrategy implements RotationStrategy{
         int startX = TetriminoCalculator.findStartX(tetrimino);
         int startY = TetriminoCalculator.findStartY(tetrimino);
 
-        // (n, m) -> (s - m + 1, n)
+        // (n, m) -> (m, s - n + 1)
         for (GridElement g : blocks) {
-            int row = g.y() - startY;
-            int col = g.x() - startX;
+            int row = g.getRow() - startY + 1;
+            int col = g.getCol() - startX + 1;
 
-            int newRow = Math.abs(size - col ) + 1;
-            int newCol = row;
+            int newRow = col;
+            int newCol = size - row + 1;
 
-            int newRowPos = newRow + startY;
-            int newColPos = newCol + startX;
+            int newRowPos = newRow + startY - 1;
+            int newColPos = newCol + startX - 1;
 
             result.put(g, new Position(newRowPos, newColPos));
         }

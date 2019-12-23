@@ -4,6 +4,7 @@ import tetris.tetrisGame.GridElement;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 public interface Tetrimino {
 
@@ -30,5 +31,18 @@ public interface Tetrimino {
      * @return name of the tetrimino type
      */
     String getType();
+
+    /**
+     * moves the piece according to the given input
+     * @param wantedMove the move to be made
+     */
+    void applyMovement(Map<GridElement, Position> wantedMove, MovementType movementType);
+
+    /**
+     * Gets the current orientation encoded to an integer
+     * @return the int representing the orientation
+     */
+    int getCurrentOrientation();
+
 
 }

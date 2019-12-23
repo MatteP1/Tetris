@@ -36,7 +36,7 @@ public class PlayingField {
         ArrayList<GridElement> pieces = currentTetrimino.getBlocks();
         for(GridElement g : pieces){
             g.makeOccupied();
-            grid[g.y()][g.x()] = g;
+            grid[g.getRow()][g.getCol()] = g;
         }
     }
 

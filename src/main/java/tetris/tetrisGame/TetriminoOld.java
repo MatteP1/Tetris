@@ -72,7 +72,7 @@ public abstract class TetriminoOld {
         }
 
         for(GridElement g : pieces){
-            System.out.print("(" + g.y() +", "+  g.x() + ") ");
+            System.out.print("(" + g.getRow() +", "+  g.getCol() + ") ");
         }
         System.out.println();
         System.out.println("now in orientation: " + orientation);
@@ -108,7 +108,7 @@ public abstract class TetriminoOld {
         }
 
         for(GridElement g : pieces){
-            System.out.print("(" + g.y() +", "+  g.x() + ") ");
+            System.out.print("(" + g.getRow() +", "+  g.getCol() + ") ");
         }
         System.out.println();
         System.out.println("now in orientation: " + orientation);
@@ -119,17 +119,17 @@ public abstract class TetriminoOld {
      * Moves the tetrimino one unit to the left
      */
     public void moveLeft(){
-        zeroy = zero.y();
-        zerox = zero.x()-1;
+        zeroy = zero.getRow();
+        zerox = zero.getCol()-1;
 
-        oney = one.y();
-        onex = one.x()-1;
+        oney = one.getRow();
+        onex = one.getCol()-1;
 
-        twoy = two.y();
-        twox = two.x()-1;
+        twoy = two.getRow();
+        twox = two.getCol()-1;
 
-        threey = three.y();
-        threex = three.x()-1;
+        threey = three.getRow();
+        threex = three.getCol()-1;
         applyNewCoords();
     }
 
@@ -137,17 +137,17 @@ public abstract class TetriminoOld {
      * Moves the tetrimino one unit to the right
      */
     public void moveRight(){
-        zeroy = zero.y();
-        zerox = zero.x()+1;
+        zeroy = zero.getRow();
+        zerox = zero.getCol()+1;
 
-        oney = one.y();
-        onex = one.x()+1;
+        oney = one.getRow();
+        onex = one.getCol()+1;
 
-        twoy = two.y();
-        twox = two.x()+1;
+        twoy = two.getRow();
+        twox = two.getCol()+1;
 
-        threey = three.y();
-        threex = three.x()+1;
+        threey = three.getRow();
+        threex = three.getCol()+1;
         applyNewCoords();
     }
 
@@ -157,17 +157,17 @@ public abstract class TetriminoOld {
      * @return Boolean expresion telling if the move was successful
      */
     public boolean moveDown() {
-        zeroy = zero.y()-1;
-        zerox = zero.x();
+        zeroy = zero.getRow()-1;
+        zerox = zero.getCol();
 
-        oney = one.y()-1;
-        onex = one.x();
+        oney = one.getRow()-1;
+        onex = one.getCol();
 
-        twoy = two.y()-1;
-        twox = two.x();
+        twoy = two.getRow()-1;
+        twox = two.getCol();
 
-        threey = three.y()-1;
-        threex = three.x();
+        threey = three.getRow()-1;
+        threex = three.getCol();
         return applyNewCoords();
     }
 
@@ -175,17 +175,17 @@ public abstract class TetriminoOld {
     public void drop(){
         ArrayList<GridElement> newPieces = calculateGhost();
 
-        zeroy = newPieces.get(0).y();
-        zerox = newPieces.get(0).x();
+        zeroy = newPieces.get(0).getRow();
+        zerox = newPieces.get(0).getCol();
 
-        oney = newPieces.get(1).y();
-        onex = newPieces.get(1).x();
+        oney = newPieces.get(1).getRow();
+        onex = newPieces.get(1).getCol();
 
-        twoy = newPieces.get(2).y();
-        twox = newPieces.get(2).x();
+        twoy = newPieces.get(2).getRow();
+        twox = newPieces.get(2).getCol();
 
-        threey = newPieces.get(3).y();
-        threex = newPieces.get(3).x();
+        threey = newPieces.get(3).getRow();
+        threex = newPieces.get(3).getCol();
 
         applyNewCoords();
 
@@ -198,12 +198,12 @@ public abstract class TetriminoOld {
     public ArrayList<GridElement> calculateGhost(){
         int closestToOccupiedSlot = Integer.MAX_VALUE;
         for(GridElement g : pieces){
-            closestToOccupiedSlot = Math.min(g.y(), closestToOccupiedSlot);
+            closestToOccupiedSlot = Math.min(g.getRow(), closestToOccupiedSlot);
         }
 
         for(GridElement g : pieces){
-            for (int i = 1; i <= g.y(); i++) {
-                if (grid[g.y()-i][g.x()].isOccupied()){
+            for (int i = 1; i <= g.getRow(); i++) {
+                if (grid[g.getRow()-i][g.getCol()].isOccupied()){
                     closestToOccupiedSlot = Math.min(i-1, closestToOccupiedSlot);
                 }
             }
@@ -212,7 +212,7 @@ public abstract class TetriminoOld {
         ArrayList<GridElement> ghostPieces = new ArrayList<>(4);
 
         for(GridElement g : pieces){
-            ghostPieces.add(grid[g.y()-closestToOccupiedSlot][g.x()]);
+            ghostPieces.add(grid[g.getRow()-closestToOccupiedSlot][g.getCol()]);
         }
 
         return ghostPieces;
@@ -233,17 +233,17 @@ public abstract class TetriminoOld {
      */
     private boolean applyNewCoords(){
         if(isLegal(zeroy, zerox, oney, onex, twoy, twox, threey, threex)) {
-            zero.setY(zeroy);
-            zero.setX(zerox);
+            zero.setRow(zeroy);
+            zero.setCol(zerox);
 
-            one.setY(oney);
-            one.setX(onex);
+            one.setRow(oney);
+            one.setCol(onex);
 
-            two.setY(twoy);
-            two.setX(twox);
+            two.setRow(twoy);
+            two.setCol(twox);
 
-            three.setY(threey);
-            three.setX(threex);
+            three.setRow(threey);
+            three.setCol(threex);
             return true;
         }
         return false;
