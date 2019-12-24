@@ -1,9 +1,9 @@
 package tetris.tetrisGame.MovementStrategy;
 
+import tetris.Framework.PlayField;
 import tetris.Framework.Position;
 import tetris.Framework.Tetrimino;
 import tetris.tetrisGame.GridElement;
-import tetris.tetrisGame.PlayingField;
 import tetris.util.TetriminoCalculator;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class StandardMovementStrategy implements MovementStrategy {
     }
 
     @Override
-    public Map<GridElement, Position> drop(PlayingField p, Tetrimino tetrimino) {
+    public Map<GridElement, Position> drop(PlayField p, Tetrimino tetrimino) {
         Map<GridElement, Position> result = new HashMap<>();
         ArrayList<GridElement> blocks = tetrimino.getBlocks();
         ArrayList<GridElement> ghostBlocks = TetriminoCalculator.calculateGhost(p, tetrimino);

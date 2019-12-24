@@ -1,9 +1,8 @@
 package tetris.tetrisGame;
 
-import tetris.Framework.Game;
-import tetris.Framework.MovementType;
-import tetris.Framework.Position;
-import tetris.Framework.Tetrimino;
+import tetris.Framework.*;
+import tetris.tetrisGame.GameOverStrategy.GameOverStrategy;
+import tetris.tetrisGame.GameOverStrategy.LosingStrategy;
 import tetris.tetrisGame.MovementStrategy.MovementStrategy;
 import tetris.tetrisGame.MovementStrategy.StandardMovementStrategy;
 import tetris.tetrisGame.RotationStrategy.IndividualPieceRotationStrategy;
@@ -40,7 +39,7 @@ public class StandardGame implements Game, KeyListener {
     private int moveDownTries;
 
     /** The grid that the current tetrimino has to be placed in*/
-    private PlayingField playfield;
+    private PlayField playfield;
 
     private Tetrimino nextTetrimino;
 
@@ -60,6 +59,7 @@ public class StandardGame implements Game, KeyListener {
     private MovementStrategy movementStrategy;
     private TetriminoFactory tetriminoFactory;
     private ValidationStrategy validationStrategy;
+    private GameOverStrategy gameOverStrategy;
 
 
     // --------------------- GAME CREATION AND TIME HANDLING ---------------------
@@ -70,12 +70,13 @@ public class StandardGame implements Game, KeyListener {
         timePassed = 0;
         score = 0;
         period = 1000*1;
-        playfield = new PlayingField();
+        playfield = new StandardPlayField();
         random = new Random();
-        rotationStrategy = new IndividualPieceRotationStrategy();
+        rotationStrategy = new StandardRotationStrategy();
         movementStrategy = new StandardMovementStrategy();
-        tetriminoFactory = new StandardTetriminoFactory();
+        tetriminoFactory = new FiveBlockPieceFactory();
         validationStrategy = new StandardValidationStrategy();
+        gameOverStrategy = new LosingStrategy();
         gui = new GUI(this, playfield);
     }
 
@@ -100,7 +101,7 @@ public class StandardGame implements Game, KeyListener {
         lost = false;
         changedCurrentTetriminoThisRound = false;
         savedTetrimino = null;
-        playfield.clearGrid();
+        playfield.clearPlayField();
         startGame();
         paused = false;
         gui.updatePlayfield();
@@ -167,13 +168,13 @@ public class StandardGame implements Game, KeyListener {
     /**
      * Calculates the next tetrimino to move down.
      */
-    public void nextPiece(){
+    public void nextPiece() {
         currentTetrimino = nextTetrimino;
         nextTetrimino = generateRandomPiece();
         moveDownTries = 0; // The amount of times the player has tried to move it down unsuccessfully
     }
 
-    private Tetrimino generateRandomPiece(){
+    private Tetrimino generateRandomPiece() {
         return tetriminoFactory.createNewTetrimino();
     }
 
@@ -220,19 +221,19 @@ public class StandardGame implements Game, KeyListener {
      * Helper method for the computerMoveDownMethod.
      * Inserts the current piece into the grid and checks to see if the game is lost.
      */
-    private void insertIntoGrid() {
-        playfield.insertPieceIntoGrid(currentTetrimino);
+    private synchronized void insertIntoGrid() {
+        playfield.insertPieceIntoPlayField(currentTetrimino);
 
         // After the moveDown, check if any rows have been filled out.
         increaseScore(playfield.removeFullRows());
-        boolean lost = playfield.calculateLost();
+        boolean lost = gameOverStrategy.calculateGameOver(playfield);
         if(!lost){
             nextPiece();
             changedCurrentTetriminoThisRound = false;
             System.out.println("Piece fallen");
             System.out.println("Next piece is: " + currentTetrimino.toString());
             System.out.println("Currently occupied slots:");
-            for(GridElement[] G : playfield.getGrid()){
+            for(Iterable<GridElement> G : playfield.getGrid()){
                 for(GridElement g : G){
                     if(g.isOccupied()){
                         System.out.print("(" + g.getRow() +", "+  g.getCol() + ") ");
@@ -340,7 +341,7 @@ public class StandardGame implements Game, KeyListener {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public synchronized void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()) {
             case KeyEvent.VK_LEFT : {
                 if (!paused) { moveLeft(); }
@@ -409,12 +410,15 @@ public class StandardGame implements Game, KeyListener {
     public boolean isPaused(){
         return paused;
     }
+    @Override
     public Tetrimino getSavedTetrimino(){
         return savedTetrimino;
     }
+    @Override
     public Tetrimino getCurrentTetrimino() {
         return currentTetrimino;
     }
+    @Override
     public Tetrimino getNextTetrimino(){
         return nextTetrimino;
     }

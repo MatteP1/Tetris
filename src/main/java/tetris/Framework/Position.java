@@ -1,8 +1,8 @@
 package tetris.Framework;
 
 public class Position {
-    int row;
-    int col;
+    private int row;
+    private int col;
 
     public Position(int row, int col) {
         this.row = row;
@@ -15,5 +15,17 @@ public class Position {
 
     public int getCol() {
         return col;
+    }
+
+    public boolean equals(Object o) {
+        if (o == null) { return false; }
+        if (o.getClass() != Position.class) { return false; }
+        Position other = (Position) o;
+        return row == other.getRow() && col == other.getCol();
+    }
+
+
+    public int hashCode() {
+        return 4000 * row + col;
     }
 }

@@ -1,10 +1,12 @@
 package tetris.util;
 
+import tetris.Framework.PlayField;
 import tetris.Framework.Tetrimino;
 import tetris.tetrisGame.GridElement;
-import tetris.tetrisGame.PlayingField;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.stream.StreamSupport;
 
 public class TetriminoCalculator {
 
@@ -14,8 +16,8 @@ public class TetriminoCalculator {
      * calculates the values of the ghost piece, that is, the position of the current tetrimino if it is dropped.
      * returns empty playlist if closestToOccupiedSlot is 0
      */
-    public static ArrayList<GridElement> calculateGhost(PlayingField p, Tetrimino t) {
-        GridElement[][] grid = p.getGrid();
+    public static ArrayList<GridElement> calculateGhost(PlayField p, Tetrimino t) {
+        GridElement[][] grid = playFieldConverter(p.getGrid());
         ArrayList<GridElement> blocks = t.getBlocks();
         int closestToOccupiedSlot = Integer.MAX_VALUE;
         for(GridElement g : blocks){
@@ -37,6 +39,19 @@ public class TetriminoCalculator {
         }
 
         return ghostBlocks;
+    }
+
+    public static GridElement[][] playFieldConverter(Iterable<Iterable<GridElement>> gridItIt) {
+        Iterator<Iterable<GridElement>> gridItIterator = gridItIt.iterator();
+        int rows = (int) StreamSupport.stream(gridItIt.spliterator(), false).count();
+        int cols = (int) StreamSupport.stream(gridItIt.iterator().next().spliterator(), false).count();
+        GridElement[][] grid = new GridElement[rows][cols];
+        while (gridItIterator.hasNext()) {
+            for (GridElement g : gridItIterator.next()) {
+                grid[g.getRow()][g.getCol()] = g;
+            }
+        }
+        return grid;
     }
 
 

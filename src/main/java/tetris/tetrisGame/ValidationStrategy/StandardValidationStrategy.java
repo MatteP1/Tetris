@@ -1,35 +1,35 @@
 package tetris.tetrisGame.ValidationStrategy;
 
+import tetris.Framework.PlayField;
 import tetris.Framework.Position;
 import tetris.tetrisGame.GridElement;
-import tetris.tetrisGame.PlayingField;
+import tetris.tetrisGame.OldPlayField;
+import tetris.util.TetriminoCalculator;
 
 import java.util.ArrayList;
 
 public class StandardValidationStrategy implements ValidationStrategy{
 
     @Override
-    public boolean validateMove(ArrayList<Position> newPosition, PlayingField playingField) {
-        GridElement[][] grid = playingField.getGrid();
-        if(!isInsidePlayingField(newPosition, playingField)) {
+    public boolean validateMove(ArrayList<Position> newPosition, PlayField playField) {
+        GridElement[][] grid = TetriminoCalculator.playFieldConverter(playField.getGrid());
+        if(!isInsidePlayingField(newPosition, playField)) {
             return false;
         }
         for (Position p : newPosition) {
             if((grid[p.getRow()][p.getCol()]).isOccupied()) {
-                System.out.println("POSITION P WAS OCCUPIED: " + p.getRow() + " " + p.getCol()); //TODO: REMOVE
                 return false;
             }
         }
         return true;
     }
 
-    private boolean isInsidePlayingField(ArrayList<Position> newPosition, PlayingField playingField) {
-        int colDimensions = playingField.getColDimensions() - 1;
-        int rowDimensions = playingField.getRowDimensions() - 1;
+    private boolean isInsidePlayingField(ArrayList<Position> newPosition, PlayField playField) {
+        int colDimensions = playField.getColDimensions() - 1;
+        int rowDimensions = playField.getRowDimensions() - 1;
 
         for (Position p : newPosition) {
             if((p.getCol() < 0 || p.getCol() > colDimensions) || (p.getRow() < 0 || p.getRow() > rowDimensions)) {
-                System.out.println("IT WAS OUTSIDE PLAYINGFIELD"); //TODO: REMOVE
                 return false;
             }
         }

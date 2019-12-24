@@ -1,5 +1,6 @@
 package tetris.tetrisGame;
 
+import tetris.Framework.PlayField;
 import tetris.util.TetriminoCalculator;
 
 import java.awt.*;
@@ -20,8 +21,8 @@ public class GUI {
     private JFrame mainFrame;
     private Container contentPane;
     private JPanel gameArea, sideInfo,savedTetrimino, nextTetrimino, optionsArea;
-    private PlayingField playfield;
-    private GridElement[][] Grid;
+    private PlayField playfield;
+    private Iterable<Iterable<GridElement>> grid;
     private StandardGame game;
     private boolean paused = false;
     private JButton pauseResumeButton, newGame, themeButton, exitButton;
@@ -39,10 +40,10 @@ public class GUI {
      * @param game The main game object, that controls the game.
      * @param playfield The playingfield that is being played on.
      */
-    public GUI(StandardGame game, PlayingField playfield) {
+    public GUI(StandardGame game, PlayField playfield) {
         this.game = game;
         this.playfield = playfield;
-        Grid = playfield.getGrid();
+        grid = playfield.getGrid();
         themeColor = getThemeColor();
         timePlayed = 0;
         createGUI();
@@ -266,11 +267,21 @@ public class GUI {
      */
     public void updatePlayfield(){
         //Display the grid
-        for (int i = 0; i <= 19; i++) {
-            for (int j = 0; j <= 9; j++) {
-                tiles[i][j].setBackground(Grid[i][j].getBackground());
+//        for (int i = 0; i <= 19; i++) {
+//            for (int j = 0; j <= 9; j++) {
+//                tiles[i][j].setBackground(grid[i][j].getBackground());
+//            }
+//        }
+        int counter = 0;
+        for (Iterable<GridElement> G : grid) {
+            if(counter <= 19) {
+                for (GridElement g : G) {
+                    tiles[g.getRow()][g.getCol()].setBackground(g.getBackground());
+                }
             }
+            ++counter;
         }
+
 
         //Display the saved and next tetrimino grid
         for (int i = 0; i <= 3; i++) {
@@ -375,11 +386,17 @@ public class GUI {
      * This method is called when the game is lost.
      */
     public void gameLostScreen(){
-        for (int i = 0; i <= 19; i++) {
-            for (int j = 0; j <= 9; j++) {
-                Grid[i][j].setBackground(Grid[i][j].getBackground().darker().darker().darker());
+//        for (int i = 0; i <= 19; i++) {
+//            for (int j = 0; j <= 9; j++) {
+//                grid[i][j].setBackground(grid[i][j].getBackground().darker().darker().darker());
+//            }
+//        }
+        for (Iterable<GridElement> G: grid) {
+            for (GridElement g : G) {
+                g.setBackground(g.getBackground().darker().darker().darker());
             }
         }
+
     }
 
     // ------------------------------------------ HELPER METHODS ------------------------------------------

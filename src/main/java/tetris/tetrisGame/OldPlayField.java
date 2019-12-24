@@ -1,27 +1,29 @@
 package tetris.tetrisGame;
 
+import tetris.Framework.PlayField;
 import tetris.Framework.Tetrimino;
 
 import java.util.*;
 import java.awt.Color;
 
 /**
- * Class representing the playingfield.
+ * Class representing the PlayField.
  * @author MatRusTy
  */
-public class PlayingField {
+public class OldPlayField implements PlayField {
     private GridElement[][] grid;
 
 
-    public PlayingField() {
+    public OldPlayField() {
         grid = new GridElement[40][10];
-        clearGrid();
+        clearPlayField();
     }
 
     /**
      * Sets up the grid with empty GridElements
      */
-    public void clearGrid() {
+    @Override
+    public void clearPlayField() {
         for (int i = 0; i <= 39; i++) {
             for (int j = 0; j <= 9; j++) {
                 grid[i][j] = new GridElement(i, j, Color.GRAY.darker(), false);
@@ -29,7 +31,8 @@ public class PlayingField {
         }
     }
 
-    public void insertPieceIntoGrid(Tetrimino tetrimino) {
+    @Override
+    public void insertPieceIntoPlayField(Tetrimino tetrimino) {
         ArrayList<GridElement> blocks = tetrimino.getBlocks();
         for(GridElement block : blocks){
             block.makeOccupied();
@@ -37,19 +40,11 @@ public class PlayingField {
         }
     }
 
-    public boolean calculateLost() {
-        for(GridElement g : grid[20]){
-            if(g.isOccupied()){
-                return true;
-            }
-        }
-        return false;
-    }
-
     /**
      * Removes all full rows in the playing-field
      * @return the amount of rows removed
      */
+    @Override
     public int removeFullRows() {
         ArrayList<Integer> fullRows = checkForFullRows();
         fullRows.sort(Comparator.reverseOrder());
@@ -60,6 +55,20 @@ public class PlayingField {
             }
         }
         return fullRows.size();
+    }
+
+    @Override
+    public Iterable<GridElement> getBlocksInRow(int rowNumber) {
+        return Arrays.asList(grid[rowNumber]);
+    }
+
+    @Override
+    public Iterable<GridElement> getBlocksInCol(int colNumber) {
+        ArrayList<GridElement> result = new ArrayList<>(40);
+        for (int i = 0; i <= 39; i++) {
+            result.add(grid[i][colNumber]);
+        }
+        return result;
     }
 
     /**
@@ -95,14 +104,21 @@ public class PlayingField {
         }
     }
 
-    public GridElement[][] getGrid() {
-        return grid;
+    public Iterable<Iterable<GridElement>> getGrid() {
+        ArrayList<Iterable<GridElement>> result = new ArrayList<>(40);
+        for (int i = 0; i <= 39; i++) {
+            Iterable<GridElement> it = Arrays.asList(grid[i]);
+            result.add(it);
+        }
+        return result;
     }
 
+    @Override
     public int getRowDimensions() {
         return grid.length;
     }
 
+    @Override
     public int getColDimensions() {
         return grid[0].length;
     }
