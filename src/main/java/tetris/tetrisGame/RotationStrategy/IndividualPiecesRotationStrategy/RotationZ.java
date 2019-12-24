@@ -3,20 +3,17 @@ package tetris.tetrisGame.RotationStrategy.IndividualPiecesRotationStrategy;
 import tetris.Framework.Position;
 import tetris.Framework.Tetrimino;
 import tetris.tetrisGame.GridElement;
-import tetris.tetrisGame.PlayingField;
 import tetris.tetrisGame.RotationStrategy.RotationStrategy;
-import tetris.tetrisGame.TetriminoOld;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class representing the tetris.T-piece
+ * Class representing the tetris.Z-piece
  * @author MatRusTy
  */
-public class T implements RotationStrategy {
+public class RotationZ implements RotationStrategy {
 
     private int zeroy, zerox, oney, onex, twoy, twox, threey, threex;
     private GridElement zero, one, two, three;
@@ -80,62 +77,62 @@ public class T implements RotationStrategy {
     }
 
     public void rotateClockwiseCase0() {
-        zeroy = zero.getRow()+1;
-        zerox = zero.getCol()+1;
+        zeroy = zero.getRow();
+        zerox = zero.getCol()+2;
 
-        oney = one.getRow();
-        onex = one.getCol();
+        oney = one.getRow()-1;
+        onex = one.getCol()+1;
 
-        twoy = two.getRow()-1;
-        twox = two.getCol()+1;
+        twoy = two.getRow();
+        twox = two.getCol();
 
         threey = three.getRow()-1;
         threex = three.getCol()-1;
     }
 
     public void rotateClockwiseCase1() {
-        zeroy = zero.getRow()-1;
-        zerox = zero.getCol()+1;
+        zeroy = zero.getRow()-2;
+        zerox = zero.getCol();
 
-        oney = one.getRow();
-        onex = one.getCol();
+        oney = one.getRow()-1;
+        onex = one.getCol()-1;
 
-        twoy = two.getRow()-1;
-        twox = two.getCol()-1;
+        twoy = two.getRow();
+        twox = two.getCol();
 
         threey = three.getRow()+1;
         threex = three.getCol()-1;
     }
 
     public void rotateClockwiseCase2() {
-        zeroy = zero.getRow()-1;
-        zerox = zero.getCol()-1;
+        zeroy = zero.getRow();
+        zerox = zero.getCol()-2;
 
-        oney = one.getRow();
-        onex = one.getCol();
+        oney = one.getRow()+1;
+        onex = one.getCol()-1;
 
-        twoy = two.getRow()+1;
-        twox = two.getCol()-1;
+        twoy = two.getRow();
+        twox = two.getCol();
 
         threey = three.getRow()+1;
         threex = three.getCol()+1;
     }
 
     public void rotateClockwiseCase3() {
-        zeroy = zero.getRow()+1;
-        zerox = zero.getCol()-1;
+        zeroy = zero.getRow()+2;
+        zerox = zero.getCol();
 
-        oney = one.getRow();
-        onex = one.getCol();
+        oney = one.getRow()+1;
+        onex = one.getCol()+1;
 
-        twoy = two.getRow()+1;
-        twox = two.getCol()+1;
+        twoy = two.getRow();
+        twox = two.getCol();
 
         threey = three.getRow()-1;
         threex = three.getCol()+1;
     }
 
     public String toString(){
-        return "T-piece";
+        return "Z-piece";
     }
 }

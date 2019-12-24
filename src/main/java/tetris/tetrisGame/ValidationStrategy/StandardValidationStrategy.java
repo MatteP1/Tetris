@@ -16,6 +16,7 @@ public class StandardValidationStrategy implements ValidationStrategy{
         }
         for (Position p : newPosition) {
             if((grid[p.getRow()][p.getCol()]).isOccupied()) {
+                System.out.println("POSITION P WAS OCCUPIED: " + p.getRow() + " " + p.getCol()); //TODO: REMOVE
                 return false;
             }
         }
@@ -28,6 +29,7 @@ public class StandardValidationStrategy implements ValidationStrategy{
 
         for (Position p : newPosition) {
             if((p.getCol() < 0 || p.getCol() > colDimensions) || (p.getRow() < 0 || p.getRow() > rowDimensions)) {
+                System.out.println("IT WAS OUTSIDE PLAYINGFIELD"); //TODO: REMOVE
                 return false;
             }
         }

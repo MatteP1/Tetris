@@ -10,21 +10,18 @@ import java.awt.Color;
  * @author MatRusTy
  */
 public class PlayingField {
-    private Tetrimino currentTetrimino;
     private GridElement[][] grid;
-    private Game game;
 
 
-    public PlayingField(Game game) {
+    public PlayingField() {
         grid = new GridElement[40][10];
         clearGrid();
-        this.game = game;
     }
 
     /**
      * Sets up the grid with empty GridElements
      */
-    public void clearGrid(){
+    public void clearGrid() {
         for (int i = 0; i <= 39; i++) {
             for (int j = 0; j <= 9; j++) {
                 grid[i][j] = new GridElement(i, j, Color.GRAY.darker(), false);
@@ -32,15 +29,15 @@ public class PlayingField {
         }
     }
 
-    public void insertCurrentPieceIntoGrid(){
-        ArrayList<GridElement> pieces = currentTetrimino.getBlocks();
-        for(GridElement g : pieces){
-            g.makeOccupied();
-            grid[g.getRow()][g.getCol()] = g;
+    public void insertPieceIntoGrid(Tetrimino tetrimino) {
+        ArrayList<GridElement> blocks = tetrimino.getBlocks();
+        for(GridElement block : blocks){
+            block.makeOccupied();
+            grid[block.getRow()][block.getCol()] = block;
         }
     }
 
-    public boolean calculateLost(){
+    public boolean calculateLost() {
         for(GridElement g : grid[20]){
             if(g.isOccupied()){
                 return true;
@@ -51,8 +48,9 @@ public class PlayingField {
 
     /**
      * Removes all full rows in the playing-field
+     * @return the amount of rows removed
      */
-    public void removeFullRows(){
+    public int removeFullRows() {
         ArrayList<Integer> fullRows = checkForFullRows();
         fullRows.sort(Comparator.reverseOrder());
 
@@ -61,14 +59,13 @@ public class PlayingField {
                 removeRow(i);
             }
         }
-        int calculatedScore = fullRows.size(); //Change later to include combos.
-        game.increaseScore(calculatedScore);
+        return fullRows.size();
     }
 
     /**
      * @return The row indices of the full rows
      */
-    private ArrayList<Integer> checkForFullRows(){
+    private ArrayList<Integer> checkForFullRows() {
         ArrayList<Integer> fullRows = new ArrayList<>();
         for (int i = 0; i < 21; i++) {
             int amountOccupied = 0;
@@ -89,17 +86,13 @@ public class PlayingField {
      * Copies the information from the row above, down to the row below, for each row above the given index.
      * @param rowIndex The row to be cleared
      */
-    private void removeRow(int rowIndex){
+    private void removeRow(int rowIndex) {
         for (int i = rowIndex; i <= 38; i++) {
             for (int j = 0; j <= 9; j++) {
                 grid[i][j].setOccupied(grid[i+1][j].isOccupied());
                 grid[i][j].setBackground(grid[i+1][j].getBackground());
             }
         }
-    }
-
-    public Tetrimino getCurrentTetrimino(){
-        return currentTetrimino;
     }
 
     public GridElement[][] getGrid() {
@@ -114,7 +107,4 @@ public class PlayingField {
         return grid[0].length;
     }
 
-    public void setCurrentTetrimino(Tetrimino t){
-        currentTetrimino = t;
-    }
 }

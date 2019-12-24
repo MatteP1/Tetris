@@ -22,7 +22,7 @@ public class GUI {
     private JPanel gameArea, sideInfo,savedTetrimino, nextTetrimino, optionsArea;
     private PlayingField playfield;
     private GridElement[][] Grid;
-    private Game game;
+    private StandardGame game;
     private boolean paused = false;
     private JButton pauseResumeButton, newGame, themeButton, exitButton;
     private static final int WIDTH = 700, HEIGHT = 1000;
@@ -39,7 +39,7 @@ public class GUI {
      * @param game The main game object, that controls the game.
      * @param playfield The playingfield that is being played on.
      */
-    public GUI(Game game, PlayingField playfield) {
+    public GUI(StandardGame game, PlayingField playfield) {
         this.game = game;
         this.playfield = playfield;
         Grid = playfield.getGrid();
@@ -238,10 +238,10 @@ public class GUI {
                 "<html>" +
                         "<h1>Controls</h1> " +
                         "<p>" +
-                        "Move Left: ←<br> " +
-                        "Move Right: →<br>" +
-                        "Move Down: ↓<br>" +
-                        "Rotate Clockwise: ↑<br>" +
+                        "Move Left: \u2190<br> " +
+                        "Move Right: \u2192<br>" +
+                        "Move Down: \u2193<br>" +
+                        "Rotate Clockwise: \u2191<br>" +
                         "Rotate Counterclockwise: Ctrl<br>" +
                         "Drop: Space<br>" +
                         "Hold piece: c<br>" +
@@ -295,14 +295,14 @@ public class GUI {
         }
 
         //Display ghost pieces of current tetrimino
-        for(GridElement g : TetriminoCalculator.calculateGhost(playfield, playfield.getCurrentTetrimino())){
+        for(GridElement g : TetriminoCalculator.calculateGhost(playfield, game.getCurrentTetrimino())){
             if(g.getRow() < 20) {
                 tiles[g.getRow()][g.getCol()].setBackground(Color.DARK_GRAY);
             }
         }
 
         //Display current tetrimino
-        ArrayList<GridElement> pieces = playfield.getCurrentTetrimino().getBlocks();
+        ArrayList<GridElement> pieces = game.getCurrentTetrimino().getBlocks();
         for(GridElement g : pieces){
             if(g.getRow()<20){
                 tiles[g.getRow()][g.getCol()].setBackground(g.getBackground());

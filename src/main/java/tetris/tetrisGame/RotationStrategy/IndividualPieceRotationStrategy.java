@@ -19,13 +19,13 @@ public class IndividualPieceRotationStrategy implements RotationStrategy {
     RotationStrategy rotationState;
 
     public IndividualPieceRotationStrategy() {
-        rotationI = new I();
-        rotationJ = new J();
-        rotationL = new L();
-        rotationO = new O();
-        rotationS = new S();
-        rotationT = new T();
-        rotationZ = new Z();
+        rotationI = new RotationI();
+        rotationJ = new RotationJ();
+        rotationL = new RotationL();
+        rotationO = new RotationO();
+        rotationS = new RotationS();
+        rotationT = new RotationT();
+        rotationZ = new RotationZ();
     }
 
     @Override

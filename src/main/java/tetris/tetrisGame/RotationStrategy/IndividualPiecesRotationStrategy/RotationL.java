@@ -10,10 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class representing the I-piece
+ * Class representing the L-piece
  * @author MatRusTy
  */
-public class I implements RotationStrategy {
+public class RotationL implements RotationStrategy {
 
     private int zeroy, zerox, oney, onex, twoy, twox, threey, threex;
     private GridElement zero, one, two, three;
@@ -76,65 +76,64 @@ public class I implements RotationStrategy {
         return result;
     }
 
-
     public void rotateClockwiseCase0() {
         zeroy = zero.getRow()+1;
-        zerox = zero.getCol()+2;
+        zerox = zero.getCol()+1;
 
         oney = one.getRow();
-        onex = one.getCol()+1;
+        onex = one.getCol();
 
         twoy = two.getRow()-1;
-        twox = two.getCol();
+        twox = two.getCol()-1;
 
         threey = three.getRow()-2;
-        threex = three.getCol()-1;
+        threex = three.getCol();
     }
 
     public void rotateClockwiseCase1() {
-        zeroy = zero.getRow()-2;
+        zeroy = zero.getRow()-1;
         zerox = zero.getCol()+1;
 
-        oney = one.getRow()-1;
+        oney = one.getRow();
         onex = one.getCol();
 
-        twoy = two.getRow();
+        twoy = two.getRow()+1;
         twox = two.getCol()-1;
 
-        threey = three.getRow()+1;
+        threey = three.getRow();
         threex = three.getCol()-2;
     }
 
     public void rotateClockwiseCase2() {
         zeroy = zero.getRow()-1;
-        zerox = zero.getCol()-2;
+        zerox = zero.getCol()-1;
 
         oney = one.getRow();
-        onex = one.getCol()-1;
+        onex = one.getCol();
 
         twoy = two.getRow()+1;
-        twox = two.getCol();
+        twox = two.getCol()+1;
 
         threey = three.getRow()+2;
-        threex = three.getCol()+1;
+        threex = three.getCol();
     }
 
     public void rotateClockwiseCase3() {
-        zeroy = zero.getRow()+2;
+        zeroy = zero.getRow()+1;
         zerox = zero.getCol()-1;
 
-        oney = one.getRow()+1;
+        oney = one.getRow();
         onex = one.getCol();
 
-        twoy = two.getRow();
+        twoy = two.getRow()-1;
         twox = two.getCol()+1;
 
-        threey = three.getRow()-1;
+        threey = three.getRow();
         threex = three.getCol()+2;
     }
 
     public String toString(){
-        return "I-piece";
+        return "L-piece";
     }
 
 }

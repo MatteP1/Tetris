@@ -88,4 +88,8 @@ public class StandardTetrimino implements Tetrimino {
         }
     }
 
+    @Override
+    public String toString() {
+        return getType() + "-piece";
+    }
 }

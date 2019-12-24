@@ -1,5 +1,6 @@
 package tetris.tetrisGame;
 
+import tetris.Framework.Game;
 import tetris.Framework.MovementType;
 import tetris.Framework.Position;
 import tetris.Framework.Tetrimino;
@@ -8,6 +9,7 @@ import tetris.tetrisGame.MovementStrategy.StandardMovementStrategy;
 import tetris.tetrisGame.RotationStrategy.IndividualPieceRotationStrategy;
 import tetris.tetrisGame.RotationStrategy.RotationStrategy;
 import tetris.tetrisGame.RotationStrategy.StandardRotationStrategy;
+import tetris.tetrisGame.TetriminoFactory.FiveBlockPieceFactory;
 import tetris.tetrisGame.TetriminoFactory.StandardTetriminoFactory;
 import tetris.tetrisGame.TetriminoFactory.TetriminoFactory;
 import tetris.tetrisGame.ValidationStrategy.StandardValidationStrategy;
@@ -23,10 +25,9 @@ import java.util.*;
  *
  * @author MatRusTy
  */
-public class Game implements KeyListener {
+public class StandardGame implements Game, KeyListener {
 
     // --------------------- FIELD VARIABLES ---------------------
-    private Game game;
     private int timePassed;
     private int score;
     private Timer time;
@@ -65,18 +66,17 @@ public class Game implements KeyListener {
     /**
      * Creates a new game object with all stats set to 0 and a new, empty playingfield.
      */
-    public Game() {
+    public StandardGame() {
         timePassed = 0;
         score = 0;
         period = 1000*1;
-        playfield = new PlayingField(this);
+        playfield = new PlayingField();
         random = new Random();
-        this.game = this;
         rotationStrategy = new IndividualPieceRotationStrategy();
         movementStrategy = new StandardMovementStrategy();
         tetriminoFactory = new StandardTetriminoFactory();
         validationStrategy = new StandardValidationStrategy();
-        gui = new GUI(game, playfield);
+        gui = new GUI(this, playfield);
     }
 
     /**
@@ -171,7 +171,6 @@ public class Game implements KeyListener {
         currentTetrimino = nextTetrimino;
         nextTetrimino = generateRandomPiece();
         moveDownTries = 0; // The amount of times the player has tried to move it down unsuccessfully
-        playfield.setCurrentTetrimino(currentTetrimino);
     }
 
     private Tetrimino generateRandomPiece(){
@@ -194,7 +193,6 @@ public class Game implements KeyListener {
                 savedTetrimino = currentTetrimino;
                 savedTetrimino = tetriminoFactory.createNewInstanceOf(savedTetrimino);
                 currentTetrimino = temp;
-                playfield.setCurrentTetrimino(currentTetrimino);
             }
             changedCurrentTetriminoThisRound = true;
         }
@@ -206,7 +204,7 @@ public class Game implements KeyListener {
      * Makes the current tetrimino moveDown down 1 row if there is space for it.
      * If there isn't space for it. Then it needs to be inserted into the playingfield, and a new piece should be created.
      */
-    public void computerMoveDown(){
+    public void computerMoveDown() {
         Map<GridElement, Position> suggestedMove = movementStrategy.moveDown(currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful){
@@ -222,11 +220,11 @@ public class Game implements KeyListener {
      * Helper method for the computerMoveDownMethod.
      * Inserts the current piece into the grid and checks to see if the game is lost.
      */
-    private void insertIntoGrid(){
-        playfield.insertCurrentPieceIntoGrid();
+    private void insertIntoGrid() {
+        playfield.insertPieceIntoGrid(currentTetrimino);
 
         // After the moveDown, check if any rows have been filled out.
-        playfield.removeFullRows();
+        increaseScore(playfield.removeFullRows());
         boolean lost = playfield.calculateLost();
         if(!lost){
             nextPiece();
@@ -245,7 +243,7 @@ public class Game implements KeyListener {
 
         } else {
             this.lost = true;
-            game.stopGame();
+            stopGame();
             System.out.println("Game Over!");
             gui.gameLostScreen();
             gui.updatePlayfield();
@@ -255,7 +253,7 @@ public class Game implements KeyListener {
     /**
      * Method to drop the current piece to the bottom of the playingfield.
      */
-    private void drop(){
+    private void drop() {
         Map<GridElement, Position> suggestedMove = movementStrategy.drop(playfield, currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful) {
@@ -413,6 +411,9 @@ public class Game implements KeyListener {
     }
     public Tetrimino getSavedTetrimino(){
         return savedTetrimino;
+    }
+    public Tetrimino getCurrentTetrimino() {
+        return currentTetrimino;
     }
     public Tetrimino getNextTetrimino(){
         return nextTetrimino;

@@ -3,11 +3,8 @@ package tetris.tetrisGame.RotationStrategy.IndividualPiecesRotationStrategy;
 import tetris.Framework.Position;
 import tetris.Framework.Tetrimino;
 import tetris.tetrisGame.GridElement;
-import tetris.tetrisGame.PlayingField;
 import tetris.tetrisGame.RotationStrategy.RotationStrategy;
-import tetris.tetrisGame.TetriminoOld;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +13,7 @@ import java.util.Map;
  * Class representing the tetris.S-piece
  * @author MatRusTy
  */
-public class S implements RotationStrategy {
+public class RotationS implements RotationStrategy {
 
     private int zeroy, zerox, oney, onex, twoy, twox, threey, threex;
     private GridElement zero, one, two, three;
