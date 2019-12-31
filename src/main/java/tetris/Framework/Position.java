@@ -28,4 +28,9 @@ public class Position {
     public int hashCode() {
         return 4000 * row + col;
     }
+
+    @Override
+    public String toString() {
+        return "Row: " + row + "    Col: " + col;
+    }
 }

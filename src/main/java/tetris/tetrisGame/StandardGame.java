@@ -6,13 +6,16 @@ import tetris.tetrisGame.GameOverStrategy.LosingStrategy;
 import tetris.tetrisGame.MovementStrategy.MovementStrategy;
 import tetris.tetrisGame.MovementStrategy.StandardMovementStrategy;
 import tetris.tetrisGame.RotationStrategy.IndividualPieceRotationStrategy;
+import tetris.tetrisGame.RotationStrategy.MatrixStyleRotationStrategy;
 import tetris.tetrisGame.RotationStrategy.RotationStrategy;
 import tetris.tetrisGame.RotationStrategy.StandardRotationStrategy;
 import tetris.tetrisGame.TetriminoFactory.FiveBlockPieceFactory;
+import tetris.tetrisGame.TetriminoFactory.SingleTypeTetriminoFactory;
 import tetris.tetrisGame.TetriminoFactory.StandardTetriminoFactory;
 import tetris.tetrisGame.TetriminoFactory.TetriminoFactory;
 import tetris.tetrisGame.ValidationStrategy.StandardValidationStrategy;
 import tetris.tetrisGame.ValidationStrategy.ValidationStrategy;
+import tetris.util.TetriminoCalculator;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -72,9 +75,9 @@ public class StandardGame implements Game, KeyListener {
         period = 1000*1;
         playfield = new StandardPlayField();
         random = new Random();
-        rotationStrategy = new StandardRotationStrategy();
+        rotationStrategy = new MatrixStyleRotationStrategy();
         movementStrategy = new StandardMovementStrategy();
-        tetriminoFactory = new FiveBlockPieceFactory();
+        tetriminoFactory = new StandardTetriminoFactory();//SingleTypeTetriminoFactory(SingleTypeTetriminoFactory.TetriminoType.TYPE_I);
         validationStrategy = new StandardValidationStrategy();
         gameOverStrategy = new LosingStrategy();
         gui = new GUI(this, playfield);
@@ -331,6 +334,7 @@ public class StandardGame implements Game, KeyListener {
     private void moveCurrentTetrimino(Map<GridElement, Position> wantedMove, MovementType movementType) {
         currentTetrimino.applyMovement(wantedMove, movementType);
         gui.updatePlayfield();
+        System.out.println(TetriminoCalculator.findPieceCenter(currentTetrimino));
     }
 
     // --------------------- GAME INPUT ---------------------

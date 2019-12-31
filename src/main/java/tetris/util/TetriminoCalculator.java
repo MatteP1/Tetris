@@ -1,6 +1,7 @@
 package tetris.util;
 
 import tetris.Framework.PlayField;
+import tetris.Framework.Position;
 import tetris.Framework.Tetrimino;
 import tetris.tetrisGame.GridElement;
 
@@ -101,8 +102,38 @@ public class TetriminoCalculator {
         return endY;
     }
 
+    public static int findLengthY(Tetrimino tetrimino) {
+        return Math.abs(findEndY(tetrimino) - findStartY(tetrimino)) + 1;
+    }
+
+    public static int findLengthX(Tetrimino tetrimino) {
+        return Math.abs(findEndX(tetrimino) - findStartX(tetrimino)) + 1;
+    }
+
     public static int findEnclosingRectangleSize(Tetrimino tetrimino) {
         return Math.max(findEndX(tetrimino) - findStartX(tetrimino), findEndY(tetrimino) - findStartY(tetrimino)) + 1;
     }
+
+
+    public static Position findPieceCenter(Tetrimino tetrimino) {
+        int lengthY = findLengthY(tetrimino);
+        int lengthX = findLengthX(tetrimino);
+        int orientation = tetrimino.getCurrentOrientation();
+        // TODO: TEST THIS METHOD (by giving it tetriminoes in different orientations and asserting center)
+        int centerY = ((lengthY-1) / 2) + (findStartY(tetrimino));
+        int centerX = ((lengthX-1) / 2) + (findStartX(tetrimino));
+//        if(lengthX % 2 == 0) {
+//            centerX += (orientation == 0 || orientation == 3) ? 0 : -1;
+//        }
+//        if(lengthY % 2 == 0) {
+//            centerY += (orientation == 0 || orientation == 1) ? -1 : 0;
+//        }
+        return new Position(centerY,centerX);
+    }
+
+    // orientation 0 : piece in top left
+    // orientation 1 : piece in top right
+    // orientation 2 : piece in bottom right
+    // orientation 3 : piece in bottom left
 
 }
