@@ -22,6 +22,6 @@ task playTetris(type: JavaExec) {
     group 'Tetris'
     description 'Run the Tetris Game'
 
-    main = 'tetris.Main'
+    main = 'tetris.tetrisGame.Main'
     classpath = sourceSets.main.runtimeClasspath
 }

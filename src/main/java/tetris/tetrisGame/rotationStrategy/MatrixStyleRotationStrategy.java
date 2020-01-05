@@ -1,7 +1,5 @@
-package tetris.tetrisGame.RotationStrategy;
+package tetris.tetrisGame.rotationStrategy;
 
-import org.ejml.data.Matrix;
-import org.ejml.equation.MatrixConstructor;
 import org.ejml.simple.SimpleMatrix;
 import tetris.Framework.Position;
 import tetris.Framework.Tetrimino;
@@ -11,7 +9,6 @@ import tetris.util.TetriminoCalculator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 public class MatrixStyleRotationStrategy implements RotationStrategy{
     @Override

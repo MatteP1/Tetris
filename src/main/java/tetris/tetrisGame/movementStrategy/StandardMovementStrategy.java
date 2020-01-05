@@ -1,4 +1,4 @@
-package tetris.tetrisGame.MovementStrategy;
+package tetris.tetrisGame.movementStrategy;
 
 import tetris.Framework.PlayField;
 import tetris.Framework.Position;

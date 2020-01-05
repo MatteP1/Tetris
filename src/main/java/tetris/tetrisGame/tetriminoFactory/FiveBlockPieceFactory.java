@@ -1,4 +1,4 @@
-package tetris.tetrisGame.TetriminoFactory;
+package tetris.tetrisGame.tetriminoFactory;
 
 import tetris.Framework.Tetrimino;
 import tetris.tetrisGame.GridElement;

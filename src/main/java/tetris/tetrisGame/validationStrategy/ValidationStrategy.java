@@ -1,4 +1,4 @@
-package tetris.tetrisGame.ValidationStrategy;
+package tetris.tetrisGame.validationStrategy;
 
 import tetris.Framework.PlayField;
 import tetris.Framework.Position;

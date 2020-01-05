@@ -1,9 +1,8 @@
-package tetris.tetrisGame.ValidationStrategy;
+package tetris.tetrisGame.validationStrategy;
 
 import tetris.Framework.PlayField;
 import tetris.Framework.Position;
 import tetris.tetrisGame.GridElement;
-import tetris.tetrisGame.OldPlayField;
 import tetris.util.TetriminoCalculator;
 
 import java.util.ArrayList;

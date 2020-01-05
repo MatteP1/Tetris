@@ -1,19 +1,19 @@
-package tetris.tetrisGame.RotationStrategy.IndividualPiecesRotationStrategy;
+package tetris.tetrisGame.rotationStrategy.IndividualPiecesRotationStrategy;
 
 import tetris.Framework.Position;
 import tetris.Framework.Tetrimino;
 import tetris.tetrisGame.GridElement;
-import tetris.tetrisGame.RotationStrategy.RotationStrategy;
+import tetris.tetrisGame.rotationStrategy.RotationStrategy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class representing the tetris.S-piece
+ * Class representing the tetris.T-piece
  * @author MatRusTy
  */
-public class RotationS implements RotationStrategy {
+public class RotationT implements RotationStrategy {
 
     private int zeroy, zerox, oney, onex, twoy, twox, threey, threex;
     private GridElement zero, one, two, three;
@@ -86,8 +86,8 @@ public class RotationS implements RotationStrategy {
         twoy = two.getRow()-1;
         twox = two.getCol()+1;
 
-        threey = three.getRow()-2;
-        threex = three.getCol();
+        threey = three.getRow()-1;
+        threex = three.getCol()-1;
     }
 
     public void rotateClockwiseCase1() {
@@ -100,8 +100,8 @@ public class RotationS implements RotationStrategy {
         twoy = two.getRow()-1;
         twox = two.getCol()-1;
 
-        threey = three.getRow();
-        threex = three.getCol()-2;
+        threey = three.getRow()+1;
+        threex = three.getCol()-1;
     }
 
     public void rotateClockwiseCase2() {
@@ -114,8 +114,8 @@ public class RotationS implements RotationStrategy {
         twoy = two.getRow()+1;
         twox = two.getCol()-1;
 
-        threey = three.getRow()+2;
-        threex = three.getCol();
+        threey = three.getRow()+1;
+        threex = three.getCol()+1;
     }
 
     public void rotateClockwiseCase3() {
@@ -128,12 +128,11 @@ public class RotationS implements RotationStrategy {
         twoy = two.getRow()+1;
         twox = two.getCol()+1;
 
-        threey = three.getRow();
-        threex = three.getCol()+2;
+        threey = three.getRow()-1;
+        threex = three.getCol()+1;
     }
 
     public String toString(){
-        return "S-piece";
+        return "T-piece";
     }
-
 }

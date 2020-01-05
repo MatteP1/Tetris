@@ -1,19 +1,19 @@
-package tetris.tetrisGame.RotationStrategy.IndividualPiecesRotationStrategy;
+package tetris.tetrisGame.rotationStrategy.IndividualPiecesRotationStrategy;
 
 import tetris.Framework.Position;
 import tetris.Framework.Tetrimino;
 import tetris.tetrisGame.GridElement;
-import tetris.tetrisGame.RotationStrategy.RotationStrategy;
+import tetris.tetrisGame.rotationStrategy.RotationStrategy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class representing the tetris.Z-piece
+ * Class representing the J-piece
  * @author MatRusTy
  */
-public class RotationZ implements RotationStrategy {
+public class RotationJ implements RotationStrategy {
 
     private int zeroy, zerox, oney, onex, twoy, twox, threey, threex;
     private GridElement zero, one, two, three;
@@ -80,7 +80,7 @@ public class RotationZ implements RotationStrategy {
         zeroy = zero.getRow();
         zerox = zero.getCol()+2;
 
-        oney = one.getRow()-1;
+        oney = one.getRow()+1;
         onex = one.getCol()+1;
 
         twoy = two.getRow();
@@ -95,7 +95,7 @@ public class RotationZ implements RotationStrategy {
         zerox = zero.getCol();
 
         oney = one.getRow()-1;
-        onex = one.getCol()-1;
+        onex = one.getCol()+1;
 
         twoy = two.getRow();
         twox = two.getCol();
@@ -108,7 +108,7 @@ public class RotationZ implements RotationStrategy {
         zeroy = zero.getRow();
         zerox = zero.getCol()-2;
 
-        oney = one.getRow()+1;
+        oney = one.getRow()-1;
         onex = one.getCol()-1;
 
         twoy = two.getRow();
@@ -123,7 +123,7 @@ public class RotationZ implements RotationStrategy {
         zerox = zero.getCol();
 
         oney = one.getRow()+1;
-        onex = one.getCol()+1;
+        onex = one.getCol()-1;
 
         twoy = two.getRow();
         twox = two.getCol();
@@ -133,6 +133,7 @@ public class RotationZ implements RotationStrategy {
     }
 
     public String toString(){
-        return "Z-piece";
+        return "J-piece";
     }
+
 }

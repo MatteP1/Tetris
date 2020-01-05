@@ -1,4 +1,4 @@
-package tetris.tetrisGame.RotationStrategy;
+package tetris.tetrisGame.rotationStrategy;
 
 import tetris.Framework.Position;
 import tetris.Framework.Tetrimino;

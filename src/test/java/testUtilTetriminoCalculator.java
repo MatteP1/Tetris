@@ -1,7 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 import tetris.Framework.Tetrimino;
-import tetris.tetrisGame.TetriminoFactory.SingleTypeTetriminoFactory;
+import tetris.tetrisGame.tetriminoFactory.SingleTypeTetriminoFactory;
 import tetris.util.TetriminoCalculator;
 
 import static org.junit.Assert.*;

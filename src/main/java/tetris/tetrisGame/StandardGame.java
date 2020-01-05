@@ -1,20 +1,18 @@
 package tetris.tetrisGame;
 
 import tetris.Framework.*;
-import tetris.tetrisGame.GameOverStrategy.GameOverStrategy;
-import tetris.tetrisGame.GameOverStrategy.LosingStrategy;
-import tetris.tetrisGame.MovementStrategy.MovementStrategy;
-import tetris.tetrisGame.MovementStrategy.StandardMovementStrategy;
-import tetris.tetrisGame.RotationStrategy.IndividualPieceRotationStrategy;
-import tetris.tetrisGame.RotationStrategy.MatrixStyleRotationStrategy;
-import tetris.tetrisGame.RotationStrategy.RotationStrategy;
-import tetris.tetrisGame.RotationStrategy.StandardRotationStrategy;
-import tetris.tetrisGame.TetriminoFactory.FiveBlockPieceFactory;
-import tetris.tetrisGame.TetriminoFactory.SingleTypeTetriminoFactory;
-import tetris.tetrisGame.TetriminoFactory.StandardTetriminoFactory;
-import tetris.tetrisGame.TetriminoFactory.TetriminoFactory;
-import tetris.tetrisGame.ValidationStrategy.StandardValidationStrategy;
-import tetris.tetrisGame.ValidationStrategy.ValidationStrategy;
+import tetris.tetrisGame.factories.AbstractGameFactory;
+import tetris.tetrisGame.factories.TetrisV1Factory;
+import tetris.tetrisGame.gameOverStrategy.GameOverStrategy;
+import tetris.tetrisGame.gameOverStrategy.LosingStrategy;
+import tetris.tetrisGame.movementStrategy.MovementStrategy;
+import tetris.tetrisGame.movementStrategy.StandardMovementStrategy;
+import tetris.tetrisGame.rotationStrategy.MatrixStyleRotationStrategy;
+import tetris.tetrisGame.rotationStrategy.RotationStrategy;
+import tetris.tetrisGame.tetriminoFactory.StandardTetriminoFactory;
+import tetris.tetrisGame.tetriminoFactory.TetriminoFactory;
+import tetris.tetrisGame.validationStrategy.StandardValidationStrategy;
+import tetris.tetrisGame.validationStrategy.ValidationStrategy;
 import tetris.util.TetriminoCalculator;
 
 import java.awt.event.KeyEvent;
@@ -63,23 +61,25 @@ public class StandardGame implements Game, KeyListener {
     private TetriminoFactory tetriminoFactory;
     private ValidationStrategy validationStrategy;
     private GameOverStrategy gameOverStrategy;
+    private AbstractGameFactory gameFactory;
 
 
     // --------------------- GAME CREATION AND TIME HANDLING ---------------------
     /**
      * Creates a new game object with all stats set to 0 and a new, empty playingfield.
      */
-    public StandardGame() {
+    public StandardGame(AbstractGameFactory gameFactory) {
         timePassed = 0;
         score = 0;
         period = 1000*1;
-        playfield = new StandardPlayField();
         random = new Random();
-        rotationStrategy = new MatrixStyleRotationStrategy();
-        movementStrategy = new StandardMovementStrategy();
-        tetriminoFactory = new StandardTetriminoFactory();//SingleTypeTetriminoFactory(SingleTypeTetriminoFactory.TetriminoType.TYPE_I);
-        validationStrategy = new StandardValidationStrategy();
-        gameOverStrategy = new LosingStrategy();
+        this.gameFactory = gameFactory;
+        playfield = gameFactory.createPlayField();
+        rotationStrategy = gameFactory.createRotationStrategy();
+        movementStrategy = gameFactory.createMovementStrategy();
+        tetriminoFactory = gameFactory.createTetriminoFactory();
+        validationStrategy = gameFactory.createValidationStrategy();
+        gameOverStrategy = gameFactory.createGameOverStrategy();
         gui = new GUI(this, playfield);
     }
 
@@ -428,5 +428,13 @@ public class StandardGame implements Game, KeyListener {
     }
     public boolean hasLost(){
         return lost;
+    }
+
+    public AbstractGameFactory getGameFactory() {
+        return gameFactory;
+    }
+
+    public void setGameFactory(AbstractGameFactory gameFactory) {
+        this.gameFactory = gameFactory;
     }
 }

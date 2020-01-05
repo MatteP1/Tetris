@@ -1,9 +1,9 @@
-package tetris.tetrisGame.RotationStrategy.IndividualPiecesRotationStrategy;
+package tetris.tetrisGame.rotationStrategy.IndividualPiecesRotationStrategy;
 
 import tetris.Framework.Position;
 import tetris.Framework.Tetrimino;
 import tetris.tetrisGame.GridElement;
-import tetris.tetrisGame.RotationStrategy.RotationStrategy;
+import tetris.tetrisGame.rotationStrategy.RotationStrategy;
 
 import java.util.ArrayList;
 import java.util.HashMap;

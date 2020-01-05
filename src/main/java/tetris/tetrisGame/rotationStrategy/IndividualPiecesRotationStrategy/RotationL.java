@@ -1,19 +1,19 @@
-package tetris.tetrisGame.RotationStrategy.IndividualPiecesRotationStrategy;
+package tetris.tetrisGame.rotationStrategy.IndividualPiecesRotationStrategy;
 
 import tetris.Framework.Position;
 import tetris.Framework.Tetrimino;
 import tetris.tetrisGame.GridElement;
-import tetris.tetrisGame.RotationStrategy.RotationStrategy;
+import tetris.tetrisGame.rotationStrategy.RotationStrategy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class representing the tetris.T-piece
+ * Class representing the L-piece
  * @author MatRusTy
  */
-public class RotationT implements RotationStrategy {
+public class RotationL implements RotationStrategy {
 
     private int zeroy, zerox, oney, onex, twoy, twox, threey, threex;
     private GridElement zero, one, two, three;
@@ -84,10 +84,10 @@ public class RotationT implements RotationStrategy {
         onex = one.getCol();
 
         twoy = two.getRow()-1;
-        twox = two.getCol()+1;
+        twox = two.getCol()-1;
 
-        threey = three.getRow()-1;
-        threex = three.getCol()-1;
+        threey = three.getRow()-2;
+        threex = three.getCol();
     }
 
     public void rotateClockwiseCase1() {
@@ -97,11 +97,11 @@ public class RotationT implements RotationStrategy {
         oney = one.getRow();
         onex = one.getCol();
 
-        twoy = two.getRow()-1;
+        twoy = two.getRow()+1;
         twox = two.getCol()-1;
 
-        threey = three.getRow()+1;
-        threex = three.getCol()-1;
+        threey = three.getRow();
+        threex = three.getCol()-2;
     }
 
     public void rotateClockwiseCase2() {
@@ -112,10 +112,10 @@ public class RotationT implements RotationStrategy {
         onex = one.getCol();
 
         twoy = two.getRow()+1;
-        twox = two.getCol()-1;
+        twox = two.getCol()+1;
 
-        threey = three.getRow()+1;
-        threex = three.getCol()+1;
+        threey = three.getRow()+2;
+        threex = three.getCol();
     }
 
     public void rotateClockwiseCase3() {
@@ -125,14 +125,15 @@ public class RotationT implements RotationStrategy {
         oney = one.getRow();
         onex = one.getCol();
 
-        twoy = two.getRow()+1;
+        twoy = two.getRow()-1;
         twox = two.getCol()+1;
 
-        threey = three.getRow()-1;
-        threex = three.getCol()+1;
+        threey = three.getRow();
+        threex = three.getCol()+2;
     }
 
     public String toString(){
-        return "T-piece";
+        return "L-piece";
     }
+
 }

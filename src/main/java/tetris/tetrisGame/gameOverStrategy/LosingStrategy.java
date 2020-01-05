@@ -1,4 +1,4 @@
-package tetris.tetrisGame.GameOverStrategy;
+package tetris.tetrisGame.gameOverStrategy;
 
 import tetris.Framework.PlayField;
 import tetris.tetrisGame.GridElement;
