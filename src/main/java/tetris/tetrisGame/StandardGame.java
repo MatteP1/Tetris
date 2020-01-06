@@ -1,5 +1,6 @@
 package tetris.tetrisGame;
 
+import jdk.internal.jimage.ImageStrings;
 import tetris.Framework.*;
 import tetris.tetrisGame.commands.TetrisCommand;
 import tetris.tetrisGame.factories.AbstractGameFactory;
@@ -18,6 +19,7 @@ import tetris.util.TetriminoCalculator;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -32,9 +34,7 @@ public class StandardGame implements Game {
     private int timePassed;
     private int score;
     private Timer time;
-    private Random random;
     private boolean paused;
-    private GUI gui;
     private boolean lost;
 
     /** Helper variable for moveDown method*/
@@ -63,6 +63,7 @@ public class StandardGame implements Game {
     private ValidationStrategy validationStrategy;
     private GameOverStrategy gameOverStrategy;
     private AbstractGameFactory gameFactory;
+    private ArrayList<GameObserver> observers;
 
 
     // --------------------- GAME CREATION AND TIME HANDLING ---------------------
@@ -73,7 +74,7 @@ public class StandardGame implements Game {
         timePassed = 0;
         score = 0;
         period = 1000*1;
-        random = new Random();
+        observers = new ArrayList<>();
         this.gameFactory = gameFactory;
         playfield = gameFactory.createPlayField();
         rotationStrategy = gameFactory.createRotationStrategy();
@@ -81,7 +82,6 @@ public class StandardGame implements Game {
         tetriminoFactory = gameFactory.createTetriminoFactory();
         validationStrategy = gameFactory.createValidationStrategy();
         gameOverStrategy = gameFactory.createGameOverStrategy();
-        gui = new GUI(this, playfield);
     }
 
     /**
@@ -108,7 +108,7 @@ public class StandardGame implements Game {
         playfield.clearPlayField();
         startGame();
         paused = false;
-        gui.updatePlayfield();
+        notifyObserversEntirePlayField();
     }
 
     /**
@@ -150,11 +150,6 @@ public class StandardGame implements Game {
             @Override
             public void run() {
                 step();
-                System.out.println("Time passed: " + timePassed);
-                for(GridElement g : currentTetrimino.getBlocks()){
-                    System.out.print("(" + g.getRow() +", "+  g.getCol() + ") ");
-                }
-                System.out.println();
             }
         }, period, period);
     }
@@ -201,12 +196,12 @@ public class StandardGame implements Game {
             }
             changedCurrentTetriminoThisRound = true;
         }
-
-        gui.updatePlayfield();
+        notifyObservers(savedTetrimino.getBlocks());
+        notifyObservers(currentTetrimino.getBlocks());
     }
 
     /**
-     * Makes the current tetrimino moveDown down 1 row if there is space for it.
+     * Makes the current tetrimino move down 1 row if there is space for it.
      * If there isn't space for it. Then it needs to be inserted into the playingfield, and a new piece should be created.
      */
     public void computerMoveDown() {
@@ -215,10 +210,10 @@ public class StandardGame implements Game {
         if(successful){
             moveCurrentTetrimino(suggestedMove, MovementType.MOVE_DOWN);
             moveDownTries = 0;
+            notifyObservers(currentTetrimino.getBlocks());
         } else {
             insertIntoGrid();
         }
-        gui.updatePlayfield();
     }
 
     /**
@@ -229,29 +224,18 @@ public class StandardGame implements Game {
         playfield.insertPieceIntoPlayField(currentTetrimino);
 
         // After the moveDown, check if any rows have been filled out.
-        increaseScore(playfield.removeFullRows());
+        List<Integer> fullRows = playfield.removeFullRows();
+        increaseScore(fullRows.size());
+        notifyObserversRowsChanges(fullRows);
         boolean lost = gameOverStrategy.calculateGameOver(playfield);
         if(!lost){
             nextPiece();
             changedCurrentTetriminoThisRound = false;
-            System.out.println("Piece fallen");
-            System.out.println("Next piece is: " + currentTetrimino.toString());
-            System.out.println("Currently occupied slots:");
-            for(Iterable<GridElement> G : playfield.getGrid()){
-                for(GridElement g : G){
-                    if(g.isOccupied()){
-                        System.out.print("(" + g.getRow() +", "+  g.getCol() + ") ");
-                    }
-                }
-            }
-            System.out.println();
-
+            notifyObservers(currentTetrimino.getBlocks());
         } else {
             this.lost = true;
             stopGame();
-            System.out.println("Game Over!");
-            gui.gameLostScreen();
-            gui.updatePlayfield();
+            notifyObserversEntirePlayField();
         }
     }
 
@@ -266,7 +250,6 @@ public class StandardGame implements Game {
             moveCurrentTetrimino(suggestedMove, MovementType.DROP);
             insertIntoGrid();
         }
-        gui.updatePlayfield();
     }
 
     /**
@@ -287,7 +270,6 @@ public class StandardGame implements Game {
             computerMoveDown();
         }
         startTimer(period);
-        gui.updatePlayfield();
     }
 
     /**
@@ -340,8 +322,7 @@ public class StandardGame implements Game {
 
     private void moveCurrentTetrimino(Map<GridElement, Position> wantedMove, MovementType movementType) {
         currentTetrimino.applyMovement(wantedMove, movementType);
-        gui.updatePlayfield();
-        System.out.println(TetriminoCalculator.findPieceCenter(currentTetrimino));
+        notifyObservers(currentTetrimino.getBlocks());
     }
 
     // --------------------- SETTERS HANDLER ---------------------
@@ -379,6 +360,11 @@ public class StandardGame implements Game {
     }
 
     @Override
+    public PlayField getPlayField() {
+        return playfield;
+    }
+
+    @Override
     public Tetrimino getNextTetrimino(){
         return nextTetrimino;
     }
@@ -394,4 +380,42 @@ public class StandardGame implements Game {
     public void setGameFactory(AbstractGameFactory gameFactory) {
         this.gameFactory = gameFactory;
     }
+
+    // --------------------- OBSERVER ---------------------
+
+    public void addObserver(GameObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(GameObserver observer) {
+        observers.remove(observer);
+    }
+
+    public void notifyObservers(ArrayList<GridElement> gridElements) {
+        for (GameObserver observer : observers) {
+            observer.playFieldChangedAt(gridElements);
+        }
+    }
+
+    public void notifyObserversEntirePlayField() {
+        ArrayList<GridElement> allGridElements = new ArrayList<>();
+        Iterable<Iterable<GridElement>> grid = playfield.getGrid();
+        for (Iterable<GridElement> i : grid) {
+            for (GridElement g : i) {
+                allGridElements.add(g);
+            }
+        }
+        for (GameObserver observer : observers) {
+            notifyObservers(allGridElements);
+        }
+    }
+
+    public void notifyObserversRowsChanges(List<Integer> rows) {
+        ArrayList<GridElement> gridElements = new ArrayList<>();
+        for (Integer i : rows) {
+            playfield.getBlocksInRow(i).iterator().forEachRemaining(gridElements::add);
+        }
+        notifyObservers(gridElements);
+    }
+
 }

@@ -45,7 +45,7 @@ public class OldPlayField implements PlayField {
      * @return the amount of rows removed
      */
     @Override
-    public int removeFullRows() {
+    public List<Integer> removeFullRows() {
         ArrayList<Integer> fullRows = checkForFullRows();
         fullRows.sort(Comparator.reverseOrder());
 
@@ -54,7 +54,7 @@ public class OldPlayField implements PlayField {
                 removeRow(i);
             }
         }
-        return fullRows.size();
+        return fullRows;
     }
 
     @Override

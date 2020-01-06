@@ -1,5 +1,6 @@
 package tetris.tetrisGame;
 
+import tetris.Framework.GameObserver;
 import tetris.Framework.PlayField;
 import tetris.tetrisGame.commands.*;
 import tetris.util.TetriminoCalculator;
@@ -9,16 +10,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileSystemView;
 
 /**
- * tetris.GUI class handling all the graphical components
+ * GUI class handling all the graphical components
  *
  * @author MatRusTy
  */
-public class GUI implements KeyListener {
+public class GUI implements KeyListener, GameObserver {
 
     // --------------------- FIELD VARIABLES ---------------------
     private JFrame mainFrame;
@@ -41,11 +43,11 @@ public class GUI implements KeyListener {
     /**
      * Creates a new tetris.GUI
      * @param game The main game object, that controls the game.
-     * @param playfield The playingfield that is being played on.
      */
-    public GUI(StandardGame game, PlayField playfield) {
+    public GUI(StandardGame game) {
         this.game = game;
-        this.playfield = playfield;
+        this.playfield = game.getPlayField();
+        game.addObserver(this);
         grid = playfield.getGrid();
         themeColor = getThemeColor();
         timePlayed = 0;
@@ -160,10 +162,10 @@ public class GUI implements KeyListener {
         return gameArea;
     }
 
-    @SuppressWarnings("Duplicates")
     /**
      * Creates the side-part of the tetris.GUI containing the saved tetrimino, the stats, and the controls.
      */
+    @SuppressWarnings("Duplicates")
     private void createSideInfo(){
         sideInfo = new JPanel();
         sideInfo.setBackground(Color.BLACK);
@@ -385,7 +387,7 @@ public class GUI implements KeyListener {
 
 
     /**
-     * Makes the playingfield dark.
+     * Makes the playfield dark.
      * This method is called when the game is lost.
      */
     public void gameLostScreen(){
@@ -399,7 +401,7 @@ public class GUI implements KeyListener {
                 g.setBackground(g.getBackground().darker().darker().darker());
             }
         }
-
+        updatePlayfield();
     }
 
     // ------------------------------------------ HELPER METHODS ------------------------------------------
@@ -535,5 +537,13 @@ public class GUI implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         //Won't be implemented
+    }
+
+    @Override
+    public void playFieldChangedAt(List<GridElement> grids) {
+        updatePlayfield();
+        if(game.hasLost()) {
+            gameLostScreen();
+        }
     }
 }

@@ -4,9 +4,9 @@ import tetris.Framework.PlayField;
 import tetris.Framework.Position;
 import tetris.Framework.Tetrimino;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -51,7 +51,7 @@ public class StandardPlayField implements PlayField {
     }
 
     @Override
-    public int removeFullRows() {
+    public List<Integer> removeFullRows() {
         ArrayList<Integer> fullRows = checkForFullRows();
         fullRows.sort(Comparator.reverseOrder());
 
@@ -60,7 +60,7 @@ public class StandardPlayField implements PlayField {
                 removeRow(i);
             }
         }
-        return fullRows.size();
+        return fullRows;
     }
 
     private ArrayList<Integer> checkForFullRows() {
