@@ -1,9 +1,12 @@
 package tetris.tetrisGame;
 
 import tetris.Framework.PlayField;
+import tetris.tetrisGame.commands.*;
 import tetris.util.TetriminoCalculator;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -15,7 +18,7 @@ import javax.swing.filechooser.FileSystemView;
  *
  * @author MatRusTy
  */
-public class GUI {
+public class GUI implements KeyListener {
 
     // --------------------- FIELD VARIABLES ---------------------
     private JFrame mainFrame;
@@ -55,7 +58,7 @@ public class GUI {
             }
         }, 1000, 1000);
 
-        mainFrame.addKeyListener(game);
+        mainFrame.addKeyListener(this);
     }
 
     /**
@@ -478,4 +481,59 @@ public class GUI {
         return newGrid;
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //Won't be implemented
+    }
+
+    @Override
+    public synchronized void keyPressed(KeyEvent e) {
+        TetrisCommand command = null;
+        switch(e.getKeyCode()) {
+            case KeyEvent.VK_LEFT : {
+                command = new MoveLeftCommand(game);
+                break;
+            }
+            case KeyEvent.VK_RIGHT : {
+                command = new MoveRightCommand(game);
+                break;
+            }
+            case KeyEvent.VK_CONTROL : {
+                command = new RotateCounterClockwiseCommand(game);
+                break;
+            }
+            case KeyEvent.VK_SPACE : case KeyEvent.VK_NUMPAD0 : {
+                command = new DropCommand(game);
+                break;
+            }
+            case KeyEvent.VK_UP : {
+                command = new RotateClockwiseCommand(game);
+                break;
+            }
+            case KeyEvent.VK_DOWN : {
+                command = new MoveDownCommand(game);
+                break;
+            }
+            case KeyEvent.VK_C : {
+                command = new ChangePieceCommand(game);
+                break;
+            }
+            case KeyEvent.VK_ESCAPE : case KeyEvent.VK_NUMPAD1 :{
+                pauseResume();
+                break;
+            }
+            case KeyEvent.VK_W : {
+                if(e.isControlDown()) { System.exit(0); }
+            }
+        }
+        if(command != null && !paused) {
+            command.execute();
+        }
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //Won't be implemented
+    }
 }

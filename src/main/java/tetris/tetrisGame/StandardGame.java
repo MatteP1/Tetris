@@ -1,6 +1,7 @@
 package tetris.tetrisGame;
 
 import tetris.Framework.*;
+import tetris.tetrisGame.commands.TetrisCommand;
 import tetris.tetrisGame.factories.AbstractGameFactory;
 import tetris.tetrisGame.factories.TetrisV1Factory;
 import tetris.tetrisGame.gameOverStrategy.GameOverStrategy;
@@ -25,7 +26,7 @@ import java.util.*;
  *
  * @author MatRusTy
  */
-public class StandardGame implements Game, KeyListener {
+public class StandardGame implements Game {
 
     // --------------------- FIELD VARIABLES ---------------------
     private int timePassed;
@@ -186,7 +187,7 @@ public class StandardGame implements Game, KeyListener {
      * You can change your current tetrimino with one you have set a side earlier
      * If you haven't set one aside earlier (first time the method is ever called), you set your piece aside, and the next piece is generated.
      */
-    private void changeCurrentTetrimino(){
+    public void changeCurrentTetrimino(){
         if(!changedCurrentTetriminoThisRound) {
             if (savedTetrimino == null) {
                 savedTetrimino = currentTetrimino;
@@ -257,7 +258,8 @@ public class StandardGame implements Game, KeyListener {
     /**
      * Method to drop the current piece to the bottom of the playingfield.
      */
-    private void drop() {
+    @Override
+    public void drop() {
         Map<GridElement, Position> suggestedMove = movementStrategy.drop(playfield, currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful) {
@@ -270,7 +272,8 @@ public class StandardGame implements Game, KeyListener {
     /**
      * Move down the current tetrimino 1 gridelement
      */
-    private void moveDown(){
+    @Override
+    public void moveDown(){
         time.cancel();
         Map<GridElement, Position> suggestedMove = movementStrategy.moveDown(currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
@@ -290,7 +293,8 @@ public class StandardGame implements Game, KeyListener {
     /**
      * Move the tetrimino left
      */
-    private void moveLeft(){
+    @Override
+    public void moveLeft() {
         Map<GridElement, Position> suggestedMove = movementStrategy.moveLeft(currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful) {
@@ -301,7 +305,8 @@ public class StandardGame implements Game, KeyListener {
     /**
      * Move the tetrimino right
      */
-    private void moveRight(){
+    @Override
+    public void moveRight() {
         Map<GridElement, Position> suggestedMove = movementStrategy.moveRight(currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful) {
@@ -312,7 +317,8 @@ public class StandardGame implements Game, KeyListener {
     /**
      * Rotate the current tetrimino in the clockwise direction
      */
-    private void rotateClockWise() {
+    @Override
+    public void rotateClockwise() {
         Map<GridElement, Position> suggestedMove = rotationStrategy.rotateClockWise(currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful) {
@@ -323,7 +329,8 @@ public class StandardGame implements Game, KeyListener {
     /**
      * Rotate the current tetrimino in the counter-clockwise direction
      */
-    private void rotateCounterClockWise() {
+    @Override
+    public void rotateCounterClockwise() {
         Map<GridElement, Position> suggestedMove = rotationStrategy.rotateCounterClockWise(currentTetrimino);
         boolean successful = validationStrategy.validateMove(new ArrayList<>(suggestedMove.values()), playfield);
         if(successful) {
@@ -335,59 +342,6 @@ public class StandardGame implements Game, KeyListener {
         currentTetrimino.applyMovement(wantedMove, movementType);
         gui.updatePlayfield();
         System.out.println(TetriminoCalculator.findPieceCenter(currentTetrimino));
-    }
-
-    // --------------------- GAME INPUT ---------------------
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        //Won't be implemented
-    }
-
-    @Override
-    public synchronized void keyPressed(KeyEvent e) {
-        switch(e.getKeyCode()) {
-            case KeyEvent.VK_LEFT : {
-                if (!paused) { moveLeft(); }
-                break;
-            }
-            case KeyEvent.VK_RIGHT : {
-                if (!paused) { moveRight(); }
-                break;
-            }
-            case KeyEvent.VK_CONTROL : {
-                if (!paused) { rotateCounterClockWise(); }
-                break;
-            }
-            case KeyEvent.VK_SPACE : case KeyEvent.VK_NUMPAD0 : {
-                if (!paused) { drop(); }
-                break;
-            }
-            case KeyEvent.VK_UP : {
-                if (!paused) { rotateClockWise(); }
-                break;
-            }
-            case KeyEvent.VK_DOWN : {
-                if (!paused) { moveDown(); }
-                break;
-            }
-            case KeyEvent.VK_C : {
-                if(!paused){ changeCurrentTetrimino(); }
-                break;
-            }
-            case KeyEvent.VK_ESCAPE : case KeyEvent.VK_NUMPAD1 :{
-                gui.pauseResume();
-                break;
-            }
-            case KeyEvent.VK_W : {
-                if(e.isControlDown()) { System.exit(0); }
-            }
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        //Won't be implemented
     }
 
     // --------------------- SETTERS HANDLER ---------------------
@@ -402,30 +356,33 @@ public class StandardGame implements Game, KeyListener {
 
     // --------------------- GETTERS ---------------------
 
-    public Random getRandom(){
-        return random;
-    }
     public int getTimePassed(){
         return timePassed;
     }
+
     public int getScore(){
         return score;
     }
+
     public boolean isPaused(){
         return paused;
     }
+
     @Override
     public Tetrimino getSavedTetrimino(){
         return savedTetrimino;
     }
+
     @Override
     public Tetrimino getCurrentTetrimino() {
         return currentTetrimino;
     }
+
     @Override
     public Tetrimino getNextTetrimino(){
         return nextTetrimino;
     }
+
     public boolean hasLost(){
         return lost;
     }
