@@ -6,7 +6,9 @@ The implementation is based on an [old implementation of mine](https://github.co
 ## Demo
 
 An active game
+
 ![alt text](https://github.com/MatteP1/Tetris/blob/master/demo/active_game.png)
 
 A lost game
+
 ![alt text](https://github.com/MatteP1/Tetris/blob/master/demo/game_over.png)
