@@ -15,7 +15,7 @@ A lost game
 
 ## Installation
 The game comes packaged as an executable jar file named `Tetris.jar`.
-The latest release of the game can be downloaded on the [releases](https://github.com/MatRusTy/Tetris/releases) page.
+The latest release of the game can be downloaded on the [releases](https://github.com/MatteP1/Tetris/releases/) page.
 
 ## Uninstall
 Simply delete the `Tetris.jar` file, and navigate to your documents folder and delete `TetrisConfig.cfg`, if it exists.
