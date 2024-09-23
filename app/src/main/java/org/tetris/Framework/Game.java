@@ -11,4 +11,6 @@ public interface Game {
     void rotateClockwise();
     void rotateCounterClockwise();
     void drop();
+    boolean hasLost();
+    int getScore();
 }

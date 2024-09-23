@@ -22,6 +22,7 @@ dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
     implementation("org.ejml:ejml-all:0.43")
+    implementation("com.google.code.gson:gson:2.11.0")
 }
 
 testing {

@@ -30,8 +30,9 @@ public class GUI implements KeyListener, GameObserver {
     private JButton pauseResumeButton, newGame, themeButton, exitButton;
     private static final int WIDTH = 700, HEIGHT = 1000;
     private JPanel[][] tiles, savedTiles, nextTiles;
-    private JLabel stats, optionsLabel, savedTetriminoLabel, nextTetriminoLabel, controls;
+    private JLabel stats, hs, optionsLabel, savedTetriminoLabel, nextTetriminoLabel, controls;
     private Color themeColor;
+    private GameScoreRetrievalService gameScoreRetrievalService;
 
 
     // ------------------------------------------ tetris.GUI CREATION ------------------------------------------
@@ -42,7 +43,8 @@ public class GUI implements KeyListener, GameObserver {
     public GUI(StandardGame game) {
         this.game = game;
         this.playfield = game.getPlayField();
-        game.addObserver(this);
+        game.addObserver(this); 
+        gameScoreRetrievalService = new GameScoreRetrievalService();
         grid = playfield.getGrid();
         themeColor = getThemeColor();
         createGUI();
@@ -220,9 +222,16 @@ public class GUI implements KeyListener, GameObserver {
         textArea.setBackground(Color.BLACK);
         textArea.setLayout(new BoxLayout(textArea,BoxLayout.Y_AXIS));
 
+        // --------------- HIGHSCORE AREA ---------------
+        hs = new JLabel(generateHsText(new GameScore("Name", 0)), SwingConstants.LEFT);
+        setHsText();
+        hs.setBorder(new EmptyBorder(25,0,0,0));
+        hs.setForeground(themeColor);
+        textArea.add(hs);
+
         // --------------- STATS AREA ---------------
         stats = new JLabel(generateStatsText(), SwingConstants.LEFT);
-        stats.setBorder(new EmptyBorder(25,0,0,0));
+        stats.setBorder(new EmptyBorder(10,0,0,0));
         stats.setForeground(themeColor);
         textArea.add(stats);
 
@@ -244,7 +253,7 @@ public class GUI implements KeyListener, GameObserver {
 
         controls = new JLabel(controlsText, SwingConstants.LEFT);
         controls.setForeground(themeColor);
-        controls.setBorder(new EmptyBorder(50,0,0,0));
+        controls.setBorder(new EmptyBorder(10,0,0,0));
 
         textArea.add(controls);
         sideInfo.add(textArea);
@@ -312,7 +321,8 @@ public class GUI implements KeyListener, GameObserver {
             }
         }
 
-        //Display the stats text
+        //Display the hs and stats text
+        setHsText();
         stats.setText(generateStatsText());
     }
 
@@ -354,6 +364,7 @@ public class GUI implements KeyListener, GameObserver {
         savedTetrimino.setBorder(BorderFactory.createLineBorder(themeColor));
         nextTetrimino.setBorder(BorderFactory.createLineBorder(themeColor));
         stats.setForeground(themeColor);
+        hs.setForeground(themeColor);
         controls.setForeground(themeColor);
         gameArea.setBorder(BorderFactory.createMatteBorder(0,0,0,1, themeColor));
         optionsArea.setBorder(BorderFactory.createMatteBorder(1,0,0,0, themeColor));
@@ -427,6 +438,24 @@ public class GUI implements KeyListener, GameObserver {
         return new Color(Integer.parseInt(color));
     }
 
+
+    private void setHsText() {
+        gameScoreRetrievalService.getScores().thenAccept(scores -> {hs.setText(generateHsText(scores.getFirst())); });
+    }
+
+    /**
+     * Helper method to create the stats text in the side area.
+     * @return The string containing the updated stats.
+     */
+    private String generateHsText(GameScore hs){
+        return "<html>" +
+                "<h1>High Score</h1> " +
+                "<p>" +
+                "Name : " + hs.userName()+"<br> " +
+                "Score : " + hs.score() +"<br>" +
+                "</p>" +
+                "</html>";
+    }
 
     /**
      * Helper method to create the stats text in the side area.

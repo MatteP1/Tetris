@@ -1,25 +1,14 @@
 package org.tetris.tetrisGame;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.lang.reflect.Array;
 import java.util.*;
 
 import org.tetris.Framework.*;
-import org.tetris.tetrisGame.commands.TetrisCommand;
 import org.tetris.tetrisGame.factories.AbstractGameFactory;
-import org.tetris.tetrisGame.factories.TetrisV1Factory;
 import org.tetris.tetrisGame.gameOverStrategy.GameOverStrategy;
-import org.tetris.tetrisGame.gameOverStrategy.LosingStrategy;
 import org.tetris.tetrisGame.movementStrategy.MovementStrategy;
-import org.tetris.tetrisGame.movementStrategy.StandardMovementStrategy;
-import org.tetris.tetrisGame.rotationStrategy.MatrixStyleRotationStrategy;
 import org.tetris.tetrisGame.rotationStrategy.RotationStrategy;
-import org.tetris.tetrisGame.tetriminoFactory.StandardTetriminoFactory;
 import org.tetris.tetrisGame.tetriminoFactory.TetriminoFactory;
-import org.tetris.tetrisGame.validationStrategy.StandardValidationStrategy;
 import org.tetris.tetrisGame.validationStrategy.ValidationStrategy;
-import org.tetris.util.TetriminoCalculator;
 
 /**
  * The game class containing most of the game handling logic, as well as keybindings.
@@ -338,6 +327,7 @@ public class StandardGame implements Game {
         return timePassed;
     }
 
+    @Override
     public int getScore(){
         return score;
     }
@@ -365,7 +355,8 @@ public class StandardGame implements Game {
     public Tetrimino getNextTetrimino(){
         return nextTetrimino;
     }
-
+    
+    @Override
     public boolean hasLost(){
         return lost;
     }
