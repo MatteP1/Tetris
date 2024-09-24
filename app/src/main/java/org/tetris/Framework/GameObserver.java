@@ -6,4 +6,5 @@ import org.tetris.tetrisGame.GridElement;
 
 public interface GameObserver {
     void playFieldChangedAt(List<GridElement> grids);
+    void gameLost(GameScore gamescore);
 }

@@ -1,6 +1,7 @@
 package org.tetris.tetrisGame;
 
 import org.tetris.tetrisGame.factories.*;
+import org.tetris.tetrisGame.onlineServices.GameScoreSubmitService;
 
 /**
  * Entry-point of Tetris!
@@ -13,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         StandardGame game = new StandardGame(new TetrisV1Factory());
         new GUI(game);
-        game.addObserver(new GameScoreSubmitService(game, System.getProperty("user.name")));
+        game.addObserver(new GameScoreSubmitService());
         game.startGame();
     }
 }

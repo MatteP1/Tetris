@@ -22,6 +22,7 @@ public class StandardGame implements Game {
     private Timer time;
     private boolean paused;
     private boolean lost;
+    private Player player;
 
     /** Helper variable for moveDown method*/
     private int moveDownTries;
@@ -59,6 +60,7 @@ public class StandardGame implements Game {
     public StandardGame(AbstractGameFactory gameFactory) {
         timePassed = 0;
         score = 0;
+        player = new Player(System.getProperty("user.name"));
         period = 1000*1;
         observers = new ArrayList<>();
         this.gameFactory = gameFactory;
@@ -182,8 +184,8 @@ public class StandardGame implements Game {
             }
             changedCurrentTetriminoThisRound = true;
         }
-        notifyObservers(savedTetrimino.getBlocks());
-        notifyObservers(currentTetrimino.getBlocks());
+        notifyObserversPlayfield(savedTetrimino.getBlocks());
+        notifyObserversPlayfield(currentTetrimino.getBlocks());
     }
 
     /**
@@ -196,7 +198,7 @@ public class StandardGame implements Game {
         if(successful){
             moveCurrentTetrimino(suggestedMove, MovementType.MOVE_DOWN);
             moveDownTries = 0;
-            notifyObservers(currentTetrimino.getBlocks());
+            notifyObserversPlayfield(currentTetrimino.getBlocks());
         } else {
             insertIntoGrid();
         }
@@ -217,10 +219,11 @@ public class StandardGame implements Game {
         if(!lost){
             nextPiece();
             changedCurrentTetriminoThisRound = false;
-            notifyObservers(currentTetrimino.getBlocks());
+            notifyObserversPlayfield(currentTetrimino.getBlocks());
         } else {
             this.lost = true;
             stopGame();
+            notifyObserversGameLost();
             notifyObserversEntirePlayField();
         }
     }
@@ -308,7 +311,7 @@ public class StandardGame implements Game {
 
     private void moveCurrentTetrimino(Map<GridElement, Position> wantedMove, MovementType movementType) {
         currentTetrimino.applyMovement(wantedMove, movementType);
-        notifyObservers(currentTetrimino.getBlocks());
+        notifyObserversPlayfield(currentTetrimino.getBlocks());
     }
 
     // --------------------- SETTERS HANDLER ---------------------
@@ -328,8 +331,8 @@ public class StandardGame implements Game {
     }
 
     @Override
-    public int getScore(){
-        return score;
+    public GameScore getGameScore(){
+        return new GameScore(player, score);
     }
 
     public boolean isPaused(){
@@ -369,6 +372,11 @@ public class StandardGame implements Game {
         this.gameFactory = gameFactory;
     }
 
+    @Override
+    public Player getPlayer() {
+        return player;
+    }
+
     // --------------------- OBSERVER ---------------------
 
     public void addObserver(GameObserver observer) {
@@ -379,7 +387,7 @@ public class StandardGame implements Game {
         observers.remove(observer);
     }
 
-    public void notifyObservers(ArrayList<GridElement> gridElements) {
+    public void notifyObserversPlayfield(ArrayList<GridElement> gridElements) {
         for (GameObserver observer : observers) {
             observer.playFieldChangedAt(gridElements);
         }
@@ -393,7 +401,7 @@ public class StandardGame implements Game {
                 allGridElements.add(g);
             }
         }
-        notifyObservers(allGridElements);
+        notifyObserversPlayfield(allGridElements);
     }
 
     public void notifyObserversRowsChanges(List<Integer> rows) {
@@ -401,7 +409,12 @@ public class StandardGame implements Game {
         for (Integer i : rows) {
             playfield.getBlocksInRow(i).iterator().forEachRemaining(gridElements::add);
         }
-        notifyObservers(gridElements);
+        notifyObserversPlayfield(gridElements);
     }
 
+    public void notifyObserversGameLost() {
+        for (GameObserver observer : observers) {
+            observer.gameLost(getGameScore());
+        }
+    }
 }

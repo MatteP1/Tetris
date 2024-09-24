@@ -2,8 +2,8 @@ package org.tetris.tetrisGame;
 
 import java.util.List;
 
-import org.tetris.Framework.Game;
 import org.tetris.Framework.GameObserver;
+import org.tetris.Framework.GameScore;
 import org.tetris.Framework.Tetrimino;
 
 public class TetrisLogger implements GameObserver {
@@ -52,5 +52,11 @@ public class TetrisLogger implements GameObserver {
             System.out.println(divider);
         }
 
+    }
+
+    @Override
+    public void gameLost(GameScore gamescore) {
+        System.out.println("Final score: " + gamescore.score());
+        System.out.println(divider);
     }
 }

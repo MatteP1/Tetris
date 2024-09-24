@@ -11,8 +11,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileSystemView;
 
 import org.tetris.Framework.GameObserver;
+import org.tetris.Framework.GameScore;
 import org.tetris.Framework.PlayField;
+import org.tetris.Framework.Player;
 import org.tetris.tetrisGame.commands.*;
+import org.tetris.tetrisGame.onlineServices.GameScoreRetrievalService;
 import org.tetris.util.TetriminoCalculator;
 
 /**
@@ -223,7 +226,7 @@ public class GUI implements KeyListener, GameObserver {
         textArea.setLayout(new BoxLayout(textArea,BoxLayout.Y_AXIS));
 
         // --------------- HIGHSCORE AREA ---------------
-        hs = new JLabel(generateHsText(new GameScore("Name", 0)), SwingConstants.LEFT);
+        hs = new JLabel(generateHsText(new GameScore(new Player("..."), 0)), SwingConstants.LEFT);
         setHsText();
         hs.setBorder(new EmptyBorder(25,0,0,0));
         hs.setForeground(themeColor);
@@ -451,7 +454,7 @@ public class GUI implements KeyListener, GameObserver {
         return "<html>" +
                 "<h1>High Score</h1> " +
                 "<p>" +
-                "Name : " + hs.userName()+"<br> " +
+                "Name : " + hs.player().userName()+"<br> " +
                 "Score : " + hs.score() +"<br>" +
                 "</p>" +
                 "</html>";
@@ -466,7 +469,7 @@ public class GUI implements KeyListener, GameObserver {
                 "<h1>Stats</h1> " +
                 "<p>" +
                 "Time : " + game.getTimePassed() +"<br> " +
-                "Score : " + game.getScore() +"<br>" +
+                "Score : " + game.getGameScore().score() +"<br>" +
                 "</p>" +
                 "</html>";
     }
@@ -552,5 +555,10 @@ public class GUI implements KeyListener, GameObserver {
         if(game.hasLost()) {
             gameLostScreen();
         }
+    }
+
+    @Override
+    public void gameLost(GameScore gamescore) {
+        
     }
 }

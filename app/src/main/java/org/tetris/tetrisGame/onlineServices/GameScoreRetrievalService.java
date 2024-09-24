@@ -1,4 +1,4 @@
-package org.tetris.tetrisGame;
+package org.tetris.tetrisGame.onlineServices;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+import org.tetris.Framework.GameScore;
+import org.tetris.Framework.Player;
 
 import com.google.gson.Gson;
 
@@ -29,10 +32,11 @@ public class GameScoreRetrievalService {
 			var res = client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
 			return res.thenApply(ress -> {
 				Gson gson = new Gson();
-				GameScore[] scoreList = gson.fromJson(ress.body(), GameScore[].class);
-				List<GameScore> scoreListSorted = new ArrayList<>(Arrays.asList(scoreList));
-				Collections.sort(scoreListSorted, Comparator.comparingInt(GameScore::score).reversed());
-				return scoreListSorted;
+				ScoreModel[] scores = gson.fromJson(ress.body(), ScoreModel[].class);
+				List<ScoreModel> scoreList = new ArrayList<>(Arrays.asList(scores));
+				List<GameScore> gameScores = scoreList.parallelStream().map(sc -> new GameScore(new Player(sc.userName()), sc.score())).toList();
+				Collections.sort(gameScores, Comparator.comparingInt(GameScore::score).reversed());
+				return gameScores;
 			});
 		} catch (Exception e) {
 			System.out.println("Couldn't retrieve scores :(");
