@@ -6,7 +6,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -34,8 +33,11 @@ public class GameScoreRetrievalService {
 				Gson gson = new Gson();
 				ScoreModel[] scores = gson.fromJson(ress.body(), ScoreModel[].class);
 				List<ScoreModel> scoreList = new ArrayList<>(Arrays.asList(scores));
-				List<GameScore> gameScores = scoreList.parallelStream().map(sc -> new GameScore(new Player(sc.userName()), sc.score())).toList();
-				Collections.sort(gameScores, Comparator.comparingInt(GameScore::score).reversed());
+				List<GameScore> gameScores = 
+					scoreList.parallelStream()
+							 .map(sc -> new GameScore(new Player(sc.userName()), sc.score()))
+							 .sorted(Comparator.comparingInt(GameScore::score).reversed())
+							 .toList();
 				return gameScores;
 			});
 		} catch (Exception e) {

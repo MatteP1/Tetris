@@ -552,13 +552,10 @@ public class GUI implements KeyListener, GameObserver {
     @Override
     public void playFieldChangedAt(List<GridElement> grids) {
         updatePlayfield();
-        if(game.hasLost()) {
-            gameLostScreen();
-        }
     }
 
     @Override
     public void gameLost(GameScore gamescore) {
-        
+        gameLostScreen();
     }
 }
